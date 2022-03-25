@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "sql.js-httpvfs": "^0.8.11",
+    "sqlite": "^4.0.25",
+    "sqlite3": "^4.2.0"
+  }
+}

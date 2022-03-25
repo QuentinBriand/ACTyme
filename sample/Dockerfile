@@ -14,6 +14,7 @@ RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 RUN npm install @material-ui/core
 RUN npm install @material-ui/icons
+RUN npm install sql.js-httpvfs
 
 # add app
 COPY . ./

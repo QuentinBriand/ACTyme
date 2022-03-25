@@ -1,0 +1,128 @@
+input.form__input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: 2px solid #141e27;
+    border-radius: 10px;
+    outline: none;
+    padding: 0 10px;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+input.form__password {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: 2px solid #141e27;
+    border-radius: 10px;
+    outline: none;
+    padding: 0 10px;
+    font-size: 20px;
+}
+
+form {
+    position: relative;
+}
+
+label {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+label.label_email {
+    position: absolute;
+    top: -20px;
+    left: 8px;
+    color: #203239;
+    text-transform: capitalize;
+    font-size: 18px;
+    transition: top .3s;
+    padding: 0 5px;
+}
+
+label.label_password {
+    position: absolute;
+    top: 60px;
+    left: 8px;
+    color: #203239;
+    text-transform: capitalize;
+    font-size: 18px;
+    transition: top .3s;
+    padding: 0 5px;
+}
+
+::placeholder {
+    color: transparent;
+}
+
+input.form__input:placeholder-shown ~label {
+    top: 3px;
+}
+/* input.form__input:focus ~label {
+    top: -20px;
+} */
+input.form__password:placeholder-shown ~label {
+    top: 35px;
+}
+/* input.form__password:focus ~label {
+    top: 60px;
+} */
+/* 
+.form_group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 50%;
+}
+
+.form_field {
+    width: 100%;
+    border: 0%;
+    border-bottom: 2px solid red;
+    outline: 0;
+    font-size: 1.3rem;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.form_field::placeholder {
+    color: transparent;
+}
+
+.form_label {
+    position:absolute;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: orange;
+}
+
+.form_field:placeholder-shown ~ .form_field {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.form_field:focus {
+    padding-bottom: 5=6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #ff0062, #00ffff);
+    border-image-slice: 1;
+}
+
+.form_field:focus ~.form_label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: purple;
+    font-weight: 700;
+} */

@@ -20,7 +20,17 @@ app.post("/signin", async(req, res) => {
       console.error("Failed to reach database");
       console.error(err.message);
   }
-  res.status(404);
+  res.end();
+});
+
+app.get('/verify/:email/:password', async(req, res) => {
+    try {
+        const resp = await pool.query("SELECT email FROM users WHERE password=$1 AND email=$2", [req.params.password, req.params.email]);
+        console.log(resp.rows);
+    } catch (err) {
+        console.error("Failed to reach database");
+        console.error(err.message);
+    }
 });
 
 app.listen(5000, () => console.log('[ACTYME] Server is launching...'));

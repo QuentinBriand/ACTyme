@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { Grid, Paper, Avatar, Typography, Link, Box } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -49,6 +50,9 @@ const Login = ({ LoginFunc, error }) => {
     LoginFunc(details);
   };
 
+  function test() {
+    alert("Clicked");
+  }
   return (
     <div>
       <Grid
@@ -65,17 +69,19 @@ const Login = ({ LoginFunc, error }) => {
           elevation={10}
           className="Login-form"
         >
-          <Grid container
+          <Grid
+            container
             spacing={0}
             direction="column"
             alignItems="center"
-            justifyContent="center">
+            justifyContent="center"
+          >
             <Avatar style={Style.avatarStyle}>
               <LockOutlinedIcon></LockOutlinedIcon>
             </Avatar>
             <h2>Login in</h2>
           </Grid>
-          <form onSubmit={submitHandler}>
+          <form>
             <div className="form-inner">
               <div className=" form-input" style={Style.divFormStyle}>
                 <input
@@ -88,7 +94,9 @@ const Login = ({ LoginFunc, error }) => {
                     setDetails({ ...details, email: e.target.value })
                   }
                 />
-                <label htmlFor="email" class="label_email">Email</label>
+                <label htmlFor="email" class="label_email">
+                  Email
+                </label>
               </div>
               <div className=" form-group" style={Style.divFormStyle}>
                 <input
@@ -101,28 +109,36 @@ const Login = ({ LoginFunc, error }) => {
                     setDetails({ ...details, password: e.target.value })
                   }
                 />
-                <label htmlFor="password" class="label_password">Password</label>
+                <label htmlFor="password" class="label_password">
+                  Password
+                </label>
               </div>
-              <div class="form_group">
-
-              </div>
+              <FormControlLabel
+                control={<Checkbox name="checkedB" color="primary" />}
+                label={
+                  <Box component="div" fontSize={15}>
+                    Remember me ?
+                  </Box>
+                }
+              />{" "}
               <div style={Style.divFormStyle}>
-                <input
+                <a href="#" class="submit-button" onClick={submitHandler}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Button
+                </a>
+                {/* <input
+                  class="btn btn-3"
                   type="submit"
                   name="LoginSubmit"
-                  style={Style.submitFormStyle}
-                />
+                  // style={Style.submitFormStyle}
+                /> */}
               </div>
             </div>
           </form>
-          <FormControlLabel
-            control={<Checkbox name="checkedB" color="primary" />}
-            label={
-              <Box component="div" fontSize={15}>
-                Remember me ?
-              </Box>
-            }
-          />
+
           <Typography style={{ textAlign: "center" }}>
             {" "}
             Do you have an account ?{" "}

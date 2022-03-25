@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "./components/loginForm";
 import { CssBaseline } from "@material-ui/core";
+import { format } from 'react-string-format';
 import IsLogged from "./components/loggedIn";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,10 +17,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const [user, setUser] = useState({ name: "", email: "" });
+  const [user, setUser] = useState({ password: "", email: "" });
   const [error, setError] = useState("");
 
-  const LoginCallBack = (details) => {
+  const LoginCallBack = async (details) => {
+    const cemail = details.email;
+    const cpass = details.password;
+    const api_call = `http://10.16.242.165:3002/verify/${cemail}/${cpass}`;
+    // const resp = await fetch(api_call);
     setUser({
       name: details.name,
       email: details.email,

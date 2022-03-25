@@ -7,6 +7,10 @@ import Logo from "./logo-act-no-text.svg";
 import "./loggedIn.css";
 
 const IsLogged = ({ LoginInfo, Logout }) => {
+
+  function Logout_f () {
+    alert("Logout");
+  }
   return (
     <header>
       <img class="logo" src={Logo} alt="logo" />
@@ -34,8 +38,8 @@ const IsLogged = ({ LoginInfo, Logout }) => {
           </li>
         </ul>
       </nav>
-      <a class="cta">
-        <button>Contact</button>
+      <a>
+        <button onClick={Logout}>Log out</button>
       </a>
     </header>
   );

@@ -1,7 +1,0 @@
-CREATE DATABASE actyme;
-
-CREATE TABLE user(
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    email TEXT,
-    password TEXT
-);

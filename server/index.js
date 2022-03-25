@@ -17,10 +17,18 @@ app.post("/signin", async(req, res) => {
         const new_user = await pool.query("INSERT INTO users (email, password) VALUES ($1, $2)", [req.body.email, req.body.password]);
         res.json(new_user);
   } catch (err) {
-      console.error("Failed to reach database");
       console.error(err.message);
   }
-  res.status(404);
+  res.end();
 });
 
-app.listen(5000, () => console.log('[ACTYME] Server is launching...'));
+app.get("/verify", async(req, res) => {
+    try {
+        console.log(req.body);
+
+    } catch {
+        console.error(err.message);
+    }
+});
+
+app.listen(4666, () => console.log('[ACTYME] Server is launching...'));

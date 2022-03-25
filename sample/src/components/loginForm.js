@@ -40,6 +40,9 @@ const Style = {
     justifyContent: "center",
     alignItems: "center",
   },
+  checkboxStyle: {
+    color: "#203239",
+  },
 };
 
 const Login = ({ LoginFunc, error }) => {
@@ -53,6 +56,11 @@ const Login = ({ LoginFunc, error }) => {
   function test() {
     alert("Clicked");
   }
+
+  const [checked, setChecked] = React.useState(false);
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   return (
     <div>
       <Grid
@@ -82,61 +90,50 @@ const Login = ({ LoginFunc, error }) => {
             <h2>Login in</h2>
           </Grid>
           <form>
-            <div className="form-inner">
-              <div className=" form-input" style={Style.divFormStyle}>
-                <input
-                  class="form__input"
-                  type="text"
-                  placeholder="test"
-                  name="email"
-                  id="email"
-                  onChange={(e) =>
-                    setDetails({ ...details, email: e.target.value })
-                  }
-                />
-                <label htmlFor="email" class="label_email">
-                  Email
-                </label>
-              </div>
-              <div className=" form-group" style={Style.divFormStyle}>
-                <input
-                  class="form__password"
-                  placeholder="test"
-                  type="password"
-                  name="password"
-                  id="|"
-                  onChange={(e) =>
-                    setDetails({ ...details, password: e.target.value })
-                  }
-                />
-                <label htmlFor="password" class="label_password">
-                  Password
-                </label>
-              </div>
-              <FormControlLabel
-                control={<Checkbox name="checkedB" color="primary" />}
-                label={
-                  <Box component="div" fontSize={15}>
-                    Remember me ?
-                  </Box>
+            <div className=" form-input" style={Style.divFormStyle}>
+              <input
+                class="form__input"
+                type="text"
+                placeholder="test"
+                name="email"
+                id="email"
+                onChange={(e) =>
+                  setDetails({ ...details, email: e.target.value })
                 }
-              />{" "}
-              <div style={Style.divFormStyle}>
-                <a href="#" class="submit-button" onClick={submitHandler}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  Button
-                </a>
-                {/* <input
-                  class="btn btn-3"
-                  type="submit"
-                  name="LoginSubmit"
-                  // style={Style.submitFormStyle}
-                /> */}
-              </div>
+              />
+              <label htmlFor="email" class="label_email">
+                Email
+              </label>
             </div>
+            <div className=" form-group" style={Style.divFormStyle}>
+              <input
+                class="form__password"
+                placeholder="test"
+                type="password"
+                name="password"
+                id="|"
+                onChange={(e) =>
+                  setDetails({ ...details, password: e.target.value })
+                }
+              />
+              <label htmlFor="password" class="label_password">
+                Password
+              </label>
+            </div>
+            <div style={Style.divFormStyle}>
+              <a class="submit-button" onClick={submitHandler}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Login
+              </a>
+            </div>
+            <FormControlLabel
+              style={Style.checkboxStyle}
+              control={<Checkbox checked={checked} onChange={handleChange} />}
+              label={<a>Remember me ?</a>}
+            />
           </form>
 
           <Typography style={{ textAlign: "center" }}>

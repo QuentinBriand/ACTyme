@@ -3,7 +3,6 @@ input.form__input {
   height: 100%;
   background-color: transparent;
   border: 2px solid #141e27;
-  border-radius: 10px;
   outline: none;
   padding: 0 10px;
   font-size: 20px;
@@ -15,7 +14,6 @@ input.form__password {
   height: 100%;
   background-color: transparent;
   border: 2px solid #141e27;
-  border-radius: 10px;
   outline: none;
   padding: 0 10px;
   font-size: 20px;
@@ -23,16 +21,6 @@ input.form__password {
 
 form {
   position: relative;
-}
-
-label {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  pointer-events: none;
 }
 
 label.label_email {
@@ -44,7 +32,13 @@ label.label_email {
   font-size: 18px;
   transition: top 0.3s;
   padding: 0 5px;
-}
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;}
 
 label.label_password {
   position: absolute;
@@ -55,7 +49,13 @@ label.label_password {
   font-size: 18px;
   transition: top 0.3s;
   padding: 0 5px;
-}
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;}
 
 ::placeholder {
   color: transparent;
@@ -69,47 +69,6 @@ input.form__password:placeholder-shown ~ label {
   top: 35px;
 }
 
-.btn {
-  text-decoration: none;
-  padding: 5px 20px;
-  font-size: 1rem;
-  position: relative;
-  margin: 10px;
-}
-
-.btn-1 {
-  background: #000;
-  color: #fff;
-  border-radius: 30px;
-  transition: transform 0.3s ease;
-}
-
-.btn-1::after,
-.btn-1::before {
-  content: "";
-  position: absolute;
-  opacity: 0.3;
-  background: #000;
-  border-radius: inherit;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
-  transition: transform 0.3s ease;
-}
-
-.btn-1:hover {
-  transform: translate(-5px, -5px);
-}
-
-.btn-1:hover::after {
-  transform: translate(6px, 6px);
-}
-
-.btn-1:hover::before {
-  transform: translate(6px, 6px);
-}
 a.submit-button {
   position: relative;
   display: inline-block;
@@ -120,8 +79,14 @@ a.submit-button {
   background: #141E27;
   font-size: 15px;
   /* margin: 10px; */
-  margin-top: 10px;
+  margin-top: 25px;
   letter-spacing: 2px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 a span {

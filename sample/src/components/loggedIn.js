@@ -1,16 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Paper } from "@material-ui/core";
-import React, { useState } from "react";
-import Login from "./loginForm";
 import Logo from "./logo-act-no-text.svg";
 import "./loggedIn.css";
 
 const IsLogged = ({ LoginInfo, Logout }) => {
-
-  function Logout_f () {
-    alert("Logout");
-  }
   return (
     <header>
       <img class="logo" src={Logo} alt="logo" />

@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { Grid, Paper, Avatar, Typography, Link, Box } from "@material-ui/core";
+import { Grid, Paper, Avatar, Typography, Link } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Logo from "./logo-act-no-text.svg";
 import "./login.css";
+import  SignupForm from "./signupForm"
 
 const Style = {
   paperStyle: {
@@ -52,10 +53,6 @@ const Login = ({ LoginFunc, error }) => {
     e.preventDefault();
     LoginFunc(details);
   };
-
-  function test() {
-    alert("Clicked");
-  }
 
   const [checked, setChecked] = React.useState(false);
   const handleChange = (event) => {
@@ -135,13 +132,16 @@ const Login = ({ LoginFunc, error }) => {
               label={<a>Remember me ?</a>}
             />
           </form>
-
           <Typography style={{ textAlign: "center" }}>
             {" "}
             Do you have an account ?{" "}
-            <Link href="#" style={{ color: "#203239" }}>
-              Sign Up
-            </Link>
+            <a
+              className="sign-up"
+              style={{ color: "#203239" }}
+              onClick={SignupForm}
+            >
+              <u>Sign Up</u>
+            </a>
           </Typography>
           <Typography style={{ textAlign: "center" }}>
             <Link href="#" style={{ color: "#203239" }}>

@@ -78,7 +78,6 @@ a.submit-button {
   color: #EEEDDE;
   background: #141E27;
   font-size: 15px;
-  /* margin: 10px; */
   margin-top: 25px;
   letter-spacing: 2px;
   -webkit-touch-callout: none;
@@ -87,6 +86,7 @@ a.submit-button {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: pointer;
 }
 
 a span {
@@ -157,4 +157,9 @@ a:hover span:nth-child(4) {
   transform: scaleX(1);
   transform-origin: right;
   transition: transform 0.25s;
+}
+
+
+a.sign-up:hover {
+  cursor: pointer;
 }

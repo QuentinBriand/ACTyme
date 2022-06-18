@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=actyme
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pgq
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/./postgresql/data
+  server:
+    build: ./server/
+    restart: always
+    links:
+      - db
+    ports:
+      - "5002:3002"
+    depends_on:
+      - db
+    environment:
+      - DB_HOSTNAME=db
+
+volumes:
+  db-data:
+    driver: local

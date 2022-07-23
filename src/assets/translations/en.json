@@ -1,0 +1,123 @@
+{
+    "global": {
+        "fields": {
+            "email": {
+                "label": "Email"
+            },
+            "password": {
+                "label": "Password"
+            },
+            "companyName": {
+                "label": "Company Name"
+            },
+            "fullName": {
+                "label": "Full Name"
+            },
+            "phone": {
+                "label": "Phone"
+            },
+            "street": {
+                "label": "Street"
+            },
+            "city": {
+                "label": "City"
+            },
+            "zip": {
+                "label": "Zip"
+            },
+            "country": {
+                "label": "Country"
+            },
+            "yes": {
+                "label": "Yes"
+            },
+            "no": {
+                "label": "No"
+            },
+            "cancel": {
+                "label": "Cancel"
+            },
+            "submit": {
+                "label": "Submit"
+            },
+            "remove": {
+                "label": "Remove"
+            }
+        }
+    },
+    "signIn": {
+        "title": "Sign-in",
+        "fields": {
+            "submit": {
+                "label": "Sign-in"
+            }
+        },
+        "requestPassword": "I lost my password",
+        "mentions": "You don't have a customer account? <a href='/contact'>Contact Sales</a><br />Or <a href='trial'>try our solution now</a>."
+    },
+    "passwordRequest": {
+        "title": "Request a new password",
+        "fields": {
+            "submit": {
+                "label": "Request"
+            }
+        }
+    },
+    "passwordReset": {
+        "title": "Reset you password",
+        "fields": {
+            "password": {
+                "placeholder": "New password"
+            },
+            "passwordConfirm": {
+                "label": "Confirm password"
+            },
+            "submit": {
+                "label": "Reset"
+            }
+        }
+    },
+    "accountInfos": {
+        "title": "Account Infos",
+        "fields": {
+            "mainContact": {
+                "label": "Main Contact"
+            },
+            "billingAddress": {
+                "label": "Billing Address"
+            },
+            "billingContact": {
+                "label": "Billing Contact"
+            },
+            "cancelClose": {
+                "label": "Cancel / Close"
+            },
+            "addInvite": {
+                "label": "Add / Invite"
+            },
+            "addProject": {
+                "label": "Add roject",
+                "name": "Project Name",
+                "items": "Workqueue Items"
+            },
+            "projects": {
+                "label": "Projects"
+            },
+            "adminUsers": {
+                "label": "Admin Users"
+            },
+            "partnerAccount": {
+                "label": "Partner Account"
+            }
+        },
+        "columns": {
+            "name": "Name",
+            "date": "Test last executed on",
+            "level": "Criticity level"
+        },
+        "list": "List of users that have <br />access to the project"
+    },
+    "errors": {
+        "passwordMismatching": "Password and confirmation must be the same"
+    }
+}

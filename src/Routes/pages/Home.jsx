@@ -38,31 +38,39 @@ const Home = () => {
   //     console.log(snapshot.val());
   //   });
   // }
-  const [success, setSuccess] = useState([["Success 1", 0]]);
+  const [success, setSuccess] = useState(["Success 1"]);
   const [determinants, setDeterminants] = useState(["Determinant 1"]);
   const [tableau, setTableau] = useState([[new Tableau("Content", 0)]]);
   const [json, setJson] = useState({});
 
   const addSuccess = () => {
-    const last = success[success.length - 1][0];
-    const new_success = Number(last[last.length - 1]) + 1;
-    setSuccess([...success, ["Success " + new_success, 0]]);
+    const last = success[success.length - 1];
+    let new_success = 1;
+    if (last) {
+      new_success = Number(last[last.length - 1]) + 1;
+    }
+    setSuccess([...success, "Success " + new_success]);
     for (let i = 0; i < tableau.length; i++) {
       const tab = new Tableau("Content", 0);
       tableau[i].push(tab);
     }
+    createNewTable(); // Temporaire (auto-refresh)
   }
 
   const addDeterminant = () => {
     const last = determinants[determinants.length - 1];
-    const new_determinant = Number(last[last.length - 1]) + 1;
+    let new_determinant = 1;
+    if (last) {
+      new_determinant = Number(last[last.length - 1]) + 1;
+    }
     setDeterminants([...determinants, "Determinant " + new_determinant]);
     const new_line = [];
-    for (let i = 0; i < tableau[0].length; i++) {
+    for (let i = 0; i < success.length; i++) {
       const tab = new Tableau("Content", 0);
       new_line.push(tab);
     }
     tableau.push(new_line);
+    createNewTable(); // Temporaire (auto-refresh)
   }
 
   const removeColumn = (nbr) => {
@@ -71,11 +79,13 @@ const Home = () => {
       tableau[i].splice(nbr, 1);
     }
     setTableau([...tableau]);
+    createNewTable(); // Temporaire (auto-refresh)
   }
   const removeLine = (nbr) => {
     determinants.splice(nbr, 1);
     tableau.splice(nbr, 1);
     setTableau([...tableau]);
+    createNewTable(); // Temporaire (auto-refresh)
   }
 
   const createNewTable = () => {
@@ -100,7 +110,6 @@ const Home = () => {
         "world": determinants,
         "cells": cells
       });
-    console.log(JSON.stringify(tableau, null, "\t"));
   }
 
   const valueChanged = (e, x, y) => {
@@ -113,6 +122,7 @@ const Home = () => {
       tableau[y][x].name = e.target.value;
     }
     setTableau([...tableau]);
+    createNewTable(); // Temporaire (auto-refresh)
   }
 
   return (
@@ -131,7 +141,7 @@ const Home = () => {
               {success.map((item, i) => {
                 return (
                   <th key={i}>
-                    {item[0]}
+                    {item}
                     <button onClick={() => removeColumn(i)}>X</button>
                   </th>
               )})}

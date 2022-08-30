@@ -38,6 +38,7 @@ const Home = () => {
   //     console.log(snapshot.val());
   //   });
   // }
+  const [activeCell, setActiveCell] = useState(undefined);
   const [success, setSuccess] = useState(["Success 1"]);
   const [determinants, setDeterminants] = useState(["Determinant 1"]);
   const [tableau, setTableau] = useState([[new Tableau("Content", 0)]]);
@@ -89,27 +90,27 @@ const Home = () => {
   }
 
   const createNewTable = () => {
-    // const newKey = push(child(ref(db), 'tables')).key;
-    // update(ref(db, '/tables/' + newKey), {
-    // });
     let cells = [];
     for (let i = 0; i < tableau.length; i++) {
       for (let j = 0; j < tableau[i].length; j++) {
         const item = tableau[i][j];
         cells.push({
           "note": item.score,
-          "evaluation": [],
-          "actions": []
+          "evaluation": item.evaluations,
+          "actions":  item.actions
         });
       }
     }
     setJson({});
     setJson(
       {
-        "hello": success,
-        "world": determinants,
+        "success_keys": success,
+        "determinants": determinants,
         "cells": cells
       });
+  }
+  const changeCell = (e, x, y) => {
+    setActiveCell(tableau[y][x]);
   }
 
   const valueChanged = (e, x, y) => {
@@ -126,11 +127,12 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div style={{border: '1px solid red'}}>
+      <div style={{ float: 'left', border: '1px solid green'}}>
         <h1>Home</h1>
-        { currentUser ? <p>Welcome, {currentUser.email}</p> : <p>Please log in</p>}
-        { currentUser ? <p>{auth.currentUser.uid}</p> : <p></p>}
-        <button onClick={createNewTable}>Create new table</button>
+        { currentUser ? <p>Welcome, {currentUser.email}</p> : <p>Please log in</p> }
+        { currentUser ? <p>{auth.currentUser.uid}</p> : <p></p> }
+        <button onClick={createNewTable}>Refresh</button>
         <button onClick={addSuccess}>Add success</button>
         <button onClick={addDeterminant}>Add determinant</button>
         <button onClick={signOut}>Sign Out</button>
@@ -158,7 +160,7 @@ const Home = () => {
                     {success.map((item, i) => {
                       return (
                         <td key={i + y * success.length + 1} style={{"paddingBottom": "0.5rem", "paddingTop": "0.5rem"}}>
-                          <button>{tableau[y][i].name}</button>
+                          <button onClick={(e) => changeCell(e, i, y)}>{tableau[y][i].name}</button>
                           <input className='score' type="number" value={tableau[y][i].score} onChange={(e) => valueChanged(e, i, y)} style={{"width": '35px', "marginRight": "1rem"}}/>
                         </td>
                     )})}
@@ -172,6 +174,35 @@ const Home = () => {
         <label style={{"whiteSpace": 'pre-wrap'}}>
           {JSON.stringify(json, null, "\t")}
         </label>
+        </div>
+        <div style={{float: 'left', border: '1px solid green', paddingLeft: '1rem', paddingRight: '1rem'}}>
+          {activeCell !== undefined ? <div>
+            <h1>Evaluations</h1>
+            <form onSubmit={(e) => activeCell.addEvaluation(e)}>
+              <input type="text" placeholder="New evaluation" />
+              <input type="submit" value="Add evaluation"/>
+            </form>
+            {activeCell.evaluations.map((item, i) => {
+              return (
+                <li key={i}>{item}</li>
+              )
+            })}
+          </div> : <></>}
+        </div>
+        <div style={{float: 'left', border: '1px solid green', paddingLeft: '1rem', paddingRight: '1rem'}}>
+          {activeCell !== undefined ? <div>
+            <h1>Actions</h1>
+            <form onSubmit={(e) => activeCell.addAction(e)}>
+              <input type="text" placeholder="New Action" />
+              <input type="submit" value="Add action"/>
+            </form>
+            {activeCell.actions.map((item, i) => {
+              return (
+                <li key={i}>{item.action}</li>
+              )
+            })}
+          </div> : <></>}
+        </div>
     </div>
   )
 }

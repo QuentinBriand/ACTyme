@@ -1,0 +1,33 @@
+{
+    "title": "Basic Example",
+    "success_keys": [
+        "L'appartenance",
+        "La crédibilité",
+        "Le socle social",
+        "La technologie au coeur de l'entreprise"
+    ],
+    "determinants": [
+        "Environnementaux / les contraintes socio-économiques",
+        "Sociétal / les institutions",
+        "Humain / Les acteurs"
+    ],
+    "cells": [
+        {
+            "note": 5,
+            "evaluation": [
+                "Participation à des colloques de branches ou territoriaux",
+                "Adhésion à un syndicat d'entreprise / branche"
+            ],
+            "actions": [
+                {
+                    "action": "Adhérer à des organisations professionnelles",
+                    "state": ["NOT_STARTED", "IN_PROGRESS", "DONE"]
+                },
+                {
+                    "action":"Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                    "checked": true
+                }
+            ]
+        }
+    ]
+}

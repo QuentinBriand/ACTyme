@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap')
+
+\:root
+    --ease: cubic-bezier(0.4, 0.0, 0.2, 1)
+    --ease-in: cubic-bezier(0.4, 0.0, 1, 1)
+    --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1)
+    --ease-sharp: cubic-bezier(0.4, 0.0, 0.6, 1)
+
+    --speed-quick: 195ms
+    --speed-base: 225ms
+    --speed-long: 375ms
+
+    --q-white: #{$white}
+    --q-grey-1: #{$grey-1}
+    --q-grey-2: #{$grey-2}
+    --q-grey-3: #{$grey-3}
+    --q-grey-4: #{$grey-4}
+    --q-grey-5: #{$grey-5}
+    --q-grey-6: #{$grey-6}
+    --q-grey-7: #{$grey-7}
+    --q-grey-8: #{$grey-8}
+    --q-grey-9: #{$grey-9}
+    --q-grey-10: #{$grey-10}
+
+@media screen and ( min-width:  1024px)
+    \:root
+        --speed-quick: 150ms
+        --speed-base: 195ms
+        --speed-long: 300ms
+
+a
+    color: var(--q-primary)
+    transition: all var(--speed-quick) var(--ease)
+
+    // &:hover
+    //     color: var(--q-info)
+
+body.desktop .q-focusable:focus > .q-focus-helper,
+body.desktop .q-manual-focusable--focused > .q-focus-helper,
+body.desktop .q-hoverable:hover > .q-focus-helper
+    background-color: $grey-4
+
+.inset
+    inset: 0
+
+.inset-top
+    top: 0
+    right: 0
+    left: 0
+
+// app global css in Sass form
+.gap-xs
+    gap: $flex-gutter-xs
+.gap-sm
+    gap: $flex-gutter-sm
+.gap-md
+    gap: $flex-gutter-md
+.gap-lg
+    gap: $flex-gutter-lg
+.gap-xl
+    gap: $flex-gutter-xl
+
+.grid-center
+    display: grid
+    place-content: center center
+
+.grid-end
+    display: grid
+    place-content: center end
+    grid-auto-flow: column
+
+.grid-items-center
+    display: grid
+    place-items: center
+
+.text-underline
+    text-decoration: underline
+
+.rounded-border
+    border-radius: 5px
+.rounded-top-border
+    border-radius: 5px 5px 0 0
+.rounded-bottom-border
+    border-radius: 0 0 5px 5px
+.rounded-5
+    border-radius: 5px
+.rounded-10
+    border-radius: 10px
+.rounded-border-15
+    border-radius: 15px
+.rounded-top-border-15
+    border-radius: 15px 15px 0 0
+.rounded-bottom-border-15
+    border-radius: 0 0 15px 15px
+.rounded-circle
+    border-radius: 50%
+
+.border-1
+    border: 0.2px solid rgba(0, 0, 0, 0.12)
+
+.bottom-border
+    border-bottom: 2px solid var(--q-grey-7)
+
+.border-right
+    border-right: 1px solid var(--q-grey-3)
+
+.border-grey-2
+    border: 1px solid var(--q-grey-2)
+.border-grey-3
+    border: 1px solid var(--q-grey-3)
+.border-grey-4
+    border: 1px solid var(--q-grey-4)
+.border-grey-5
+    border: 1px solid var(--q-grey-5)
+
+.bg-grey-4-30
+    background: rgba(255, 255, 255, 0.25)
+
+.no-border-radius-top
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+.no-border-radius-bottom
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+.text-a
+    color: rgb(var(--q-a))
+.text-b
+    color: rgb(var(--q-b))
+.text-c
+    color: rgb(var(--q-c))
+.text-d
+    color: rgb(var(--q-d))
+.text-f
+    color: rgb(var(--q-f))
+.text-na
+    color: rgb(var(--q-grey))
+.text-low
+    color: var(--q-low)
+.text-medium
+    color: var(--q-medium)
+.text-high
+    color: var(--q-high)
+
+.bg-a
+    background-color: rgb(var(--q-a))
+.bg-b
+    background-color: rgb(var(--q-b))
+.bg-c
+    background-color: rgb(var(--q-c))
+.bg-d
+    background-color: rgb(var(--q-d))
+.bg-f
+    background-color: rgb(var(--q-f))
+.bg-na
+    background-color: rgb(var(--q-grey))
+
+.text-weight-semibold
+    font-weight: 600
+
+.opacity-30
+    opacity: 0.3
+.opacity-40
+    opacity: 0.4
+.opacity-50
+    opacity: 0.5
+
+.elevation-1
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.05)
+
+.elevation-text-1
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.12)
+
+.clamp-width-card
+    width: clamp(300px, 45vw ,400px)
+
+.no-focus > .q-focus-helper
+    display: none
+
+.rotation-90
+    position: absolute
+    white-space: nowrap
+    left: 50%
+    transform-origin: center left
+    transform: rotate(90deg)
+
+.top-right-xl
+    top: 50%
+    right: $flex-gutter-xl
+    transform: translateY(-50%)
+
+.flex
+    display: flex
+
+.flex-column
+    flex-direction: column
+
+.flex-grow
+    flex-grow: 1
+
+.top-xl
+    top: $flex-gutter-xl
+
+.top-xxl
+    top: ($flex-gutter-xl * 1.25)
+
+.max-width-100
+    max-width: 100%
+
+.min-width-none
+    min-width: 0

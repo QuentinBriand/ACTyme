@@ -61,440 +61,371 @@ export const useMatrixStore = defineStore("matrix", {
                 id: "1",
                 title: "Basic Example",
                 successKeys: [
-                    { title: "L'appartenance", id: 1 },
-                    { title: "La crédibilité", id: 2 },
-                    { title: "Le socle social", id: 3 },
-                    { title: "La technologie au coeur de l'entreprise", id: 4 },
+                    { title: "Mon poid", id: 1 },
+                    { title: "Mes relations avec les soignants", id: 2 },
+                    { title: "La connaissance de la maladie", id: 3 },
+                    { title: "Me sentir heureux de vivre", id: 4 },
                 ],
                 determinantsKeys: [
                     {
-                        title: "Environnementaux / les contraintes socio-économiques",
+                        title: "Moi",
                         id: 1,
                     },
-                    { title: "Sociétal / les institutions", id: 2 },
-                    { title: "Humain / Les acteurs", id: 3 },
+                    { title: "Moi et les autres", id: 2 },
+                    { title: "Moi et mon environement", id: 3 },
                 ],
                 cells: [
                     {
                         id: 1,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
+                                title: "Arriver à un poid stable et un IMC correct",
+                                impactedActionsIds: [1, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
+                                title: "Ton poids est-il un frein à certaines activités ?",
                                 impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Faire du sport",
                                 type: "progress",
                                 state: "notStarted",
+                                impactedCriteriaIds: [3, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Entamer un régime",
                                 type: "checkbox",
-                                checked: true,
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
                             },
+                            {
+                                id: 3,
+                                title: "Faire attention à mon alimentation",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
+                            }
                         ],
                     },
                     {
                         id: 2,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Comment perçois-tu le regard des autres sur ta silhouette ?",
+                                impactedActionsIds: [2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
-                                type: "progress",
-                                state: "notStarted",
+                                title: "Prendre un coach pour m'aider",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [3, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Prendre une diététicienne pour m'aider",
                                 type: "checkbox",
-                                checked: true,
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
                             },
+                            {
+                                id: 3,
+                                title: "Réfléchir à aller vers de l'hypnothérapie pour y arriver",
+                                type: "progress",
+                                state: "notStarted",
+                                impactedCriteriaIds: [1, 2],
+                            }
                         ],
                     },
                     {
                         id: 3,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
+                                title: "A quel point estimes-tu ton environement favorable à ta perte de poid ?",
+                                impactedActionsIds: [2],
                             },
                             {
                                 id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "As-tu un environement aidant ?",
+                                impactedActionsIds: [2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Faire une semaine de marche",
                                 type: "progress",
                                 state: "notStarted",
-                            },
-                            {
-                                id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                impactedCriteriaIds: [3, 2],
+                            }
                         ],
                     },
                     {
                         id: 4,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
+                                title: "Entretenir une relation de confiance avec les soignants",
+                                impactedActionsIds: [2],
                             },
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
-                                type: "progress",
-                                state: "notStarted",
+                                title: "Poser plus de questions sur les résultats",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                title: "M'impliquer un peu plus dans la relation",
+                                type: "progress",
+                                state: "notStarted",
+                                impactedCriteriaIds: [3, 2],
+                            }
                         ],
                     },
                     {
                         id: 5,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Quel niveau de confiance as-tu avec les soignants ?",
+                                impactedActionsIds: [1, 2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Me former aux relations patient/soignant",
                                 type: "progress",
                                 state: "notStarted",
+                                impactedCriteriaIds: [3, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                title: "Travailler sur ma patience",
+                                type: "progress",
+                                state: "notStarted",
+                                impactedCriteriaIds: [1],
+                            }
                         ],
                     },
                     {
                         id: 6,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "L'environement hospitalier est-il favorable à ma perte de poid ?",
+                                impactedActionsIds: [1],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "T'engager dans des actions avec des soignants",
                                 type: "progress",
                                 state: "notStarted",
-                            },
-                            {
-                                id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                impactedCriteriaIds: [3, 2],
+                            }
                         ],
                     },
                     {
                         id: 7,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Connais-tu vraiment tes pathologies",
+                                impactedActionsIds: [1, 2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
-                                type: "progress",
-                                state: "notStarted",
+                                title: "Faire des recherches sur Internet",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [1],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Poser plus de questions aux soignants",
                                 type: "checkbox",
-                                checked: true,
-                            },
+                                checked: false,
+                                impactedCriteriaIds: [1],
+                            }
                         ],
                     },
                     {
                         id: 8,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Quel niveau de connaissance penses-tu avoir sur tes maladies ?",
+                                impactedActionsIds: [1],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Voir pour trouver d'autres patients atteints de la même maladie",
                                 type: "progress",
                                 state: "notStarted",
-                            },
-                            {
-                                id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                impactedCriteriaIds: [1],
+                            }
                         ],
                     },
                     {
                         id: 9,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Comment vie-tu la rareté de tes maladies ?",
+                                impactedActionsIds: [2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Participer à des conférences",
                                 type: "progress",
                                 state: "notStarted",
-                            },
-                            {
-                                id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
-                                type: "checkbox",
-                                checked: true,
-                            },
+                                impactedCriteriaIds: [3, 2],
+                            }
                         ],
                     },
                     {
                         id: 10,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
+                                title: "Est-tu heureux de vivre ?",
+                                impactedActionsIds: [1],
                             },
                             {
                                 id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Éprouves-tu de la joie à te lever le matin ?",
+                                impactedActionsIds: [1],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
-                                type: "progress",
-                                state: "notStarted",
+                                title: "Faire des activités de plaisirs en priorité",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Continuer de faire le bien autour de moi",
                                 type: "checkbox",
-                                checked: true,
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
                             },
+                            {
+                                id: 3,
+                                title: "Prendre du temps pour moi",
+                                type: "checkbox",
+                                checked: false,
+                                impactedCriteriaIds: [1, 2],
+                            }
                         ],
                     },
                     {
                         id: 11,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "À ton avis, comment les autres te perçoivent ton bien-être ?",
+                                impactedActionsIds: [1],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Trouver des passions communes avec d'autres personnes",
                                 type: "progress",
                                 state: "notStarted",
+                                impactedCriteriaIds: [1],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Continuer les sorties de motos",
                                 type: "checkbox",
-                                checked: true,
+                                checked: false,
+                                impactedCriteriaIds: [1],
                             },
+                            {
+                                id: 3,
+                                title: "Mettre en place des projets communs avec d'autres",
+                                type: "progress",
+                                state: "notStarted",
+                                impactedCriteriaIds: [1],
+                            }
                         ],
                     },
                     {
                         id: 12,
-                        note: 5,
+                        evaluation_note: 2,
+                        action_note: 3,
                         criteria: [
                             {
                                 id: 1,
-                                title: "Participation à des colloques de branches ou territoriaux",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 2,
-                                title: "Adhésion à un syndicat d'entreprise / branche",
-                                impactedActionsIds: [1, 2, 3],
-                            },
-                            {
-                                id: 3,
-                                title: "Boubakar",
-                                impactedActionsIds: [1, 2, 3],
-                            },
+                                title: "Ton cadre de vie est-il favorable à ton bien-être ?",
+                                impactedActionsIds: [2],
+                            }
                         ],
                         actions: [
                             {
                                 id: 1,
-                                title: "Adhérer à des organisations professionnelles",
+                                title: "Prendre des vacances loin de chez toi",
                                 type: "progress",
                                 state: "notStarted",
+                                impactedCriteriaIds: [1],
                             },
                             {
                                 id: 2,
-                                title: "Adhérer à une association d'aide aux entreprises sur les faits sociétaux",
+                                title: "Découvrir d'autres cultures",
                                 type: "checkbox",
-                                checked: true,
-                            },
+                                checked: false,
+                                impactedCriteriaIds: [1],
+                            }
                         ],
-                    },
+                    }
                 ],
             };
             // OK, let's go.

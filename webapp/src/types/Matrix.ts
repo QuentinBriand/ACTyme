@@ -4,12 +4,13 @@ export interface MatrixCellKey {
 }
 
 export type MatrixActionType = "checkbox" | "progress";
+export type MatrixActionState = "notStarted" | "inProgress" | "done";
 
 export interface MatrixAction {
     id: number;
     title: string;
     type: MatrixActionType;
-    state?: "notStarted" | "inProgress" | "done";
+    state?: MatrixActionState;
     checked?: boolean;
     impactedCriteriaIds?: number[];
 }
@@ -22,7 +23,8 @@ export interface MatrixCriteria {
 
 export interface MatrixCell {
     id: number;
-    note: number;
+    action_note: number;
+    evaluation_note: number;
     criteria: MatrixCriteria[];
     actions: MatrixAction[];
 }

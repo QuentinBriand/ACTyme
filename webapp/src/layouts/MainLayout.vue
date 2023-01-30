@@ -27,3 +27,8 @@ console.log(authInitted.value);
 
 authStore.init();
 </script>
+
+<style scoped lang="sass">
+.action
+    color: #52a2da !important
+</style>

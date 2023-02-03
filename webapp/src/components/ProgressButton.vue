@@ -1,6 +1,6 @@
 <template>
     <q-circular-progress
-        :value="0.25"
+        :value="getActionsPercentage([])"
         :min="0"
         :max="1"
         size="2.5rem"
@@ -10,7 +10,7 @@
         reverse
     />
     <q-circular-progress
-        :value="0.1"
+        :value="getCriteriaPercentage([])"
         :min="0"
         :max="1"
         size="3.5rem"
@@ -20,7 +20,12 @@
     />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {
+    getActionsPercentage,
+    getCriteriaPercentage,
+} from "src/helpers/matrix.helper";
+</script>
 
 <style scope lang="sass">
 .container

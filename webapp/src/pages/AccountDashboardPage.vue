@@ -43,36 +43,3 @@ const actions: ISidebarActions[] = [
     },
 ];
 </script>
-
-<style scoped lang="sass">
-
-.button-progess
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-    display: flex
-    align-items: center
-    justify-content: center
-    font-weight: 450
-
-.centered-left-button
-    top: -10%
-    left: 70%
-    transform: translate(-70%, 10%)
-
-.centered-right-button
-    top: -10%
-    left: 5%
-    transform: translate(-5%, 10%)
-
-.centered-text
-    position: absolute
-    top: 50%
-    transform: translate(0, -50%)
-    text-align: center
-
-.card-container
-    width: 100%
-    height: 100%
-</style>

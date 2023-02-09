@@ -1,22 +1,24 @@
-import { MatrixCriteria, MatrixAction, MatrixCell } from "src/types/Matrix";
+import { MatrixAction, MatrixCell } from "src/types/Matrix";
+import { TableCell } from "src/types/TableCell";
 
-export const getCriteriaPercentage = (
-    criteria: MatrixCriteria[],
-    currentCard: MatrixCell
-) => {
+export const getCriteriaPercentage = (currentCell: TableCell) => {
     let total = 0;
+    const criteria = currentCell.criteria;
+    if (criteria === undefined || criteria.length === 0) {
+        return 0;
+    }
     criteria.forEach(crit => {
         const linkedActions = crit.impactedActionsIds;
         if (linkedActions === undefined || linkedActions.length === 0) {
             return;
         }
-        if (currentCard === undefined) {
+        if (currentCell === undefined) {
             return;
         }
         const linkedActionLength = linkedActions.length;
         let actionsDone = 0;
         linkedActions.forEach(actionId => {
-            const action = currentCard.actions.find(
+            const action = currentCell.actions?.find(
                 action => action.id === actionId
             );
             if (action === undefined) {
@@ -29,12 +31,16 @@ export const getCriteriaPercentage = (
     return total / criteria.length;
 };
 
-export const getActionsPercentage = (matrixDetails: MatrixAction[]) => {
+export const getActionsPercentage = (currentCard: TableCell) => {
     let total = 0;
-    matrixDetails.forEach(matrixDetail => {
+    const actions = currentCard.actions;
+    if (actions === undefined || actions.length === 0) {
+        return 0;
+    }
+    actions.forEach(matrixDetail => {
         total += isActionDone(matrixDetail) ? 1 : 0;
     });
-    return total / matrixDetails.length;
+    return total / actions.length;
 };
 
 export const isActionDone = (action: MatrixAction) => {

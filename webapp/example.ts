@@ -371,3 +371,24 @@ export const matrix: Matrix = {
         },
     ],
 };
+
+export const matrixEmpty: Matrix = {
+    id: "0",
+    title: "Ma matrice",
+    successKeys: [{ title: "Succès 1", id: 1 }],
+    determinantsKeys: [
+        {
+            title: "Determinant 1",
+            id: 1,
+        },
+    ],
+    cells: [
+        {
+            id: 1,
+            evaluation_note: 0,
+            action_note: 0,
+            criteria: [],
+            actions: [],
+        },
+    ],
+};

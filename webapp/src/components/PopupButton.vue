@@ -1,8 +1,14 @@
 <template>
     <q-btn :color="color" @click="openPopup = !openPopup">
         <q-icon :name="icon" size="3vw" />
+        <q-tooltip>{{ tooltip }}</q-tooltip>
     </q-btn>
-    <popup-details v-model="openPopup" :details="details" title="Evaluations" />
+    <popup-details
+        v-model="openPopup"
+        :details="details"
+        :title="tooltip"
+        :type="type"
+    />
 </template>
 
 <script setup lang="ts">
@@ -17,5 +23,7 @@ defineProps<{
     color: QBtnProps["color"];
     details: MatrixCriteria[] | MatrixAction[];
     icon: string;
+    tooltip: string;
+    type: "Evaluation" | "Action";
 }>();
 </script>

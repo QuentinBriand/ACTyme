@@ -156,15 +156,14 @@ body.desktop .q-hoverable:hover > .q-focus-helper
 .bg-na
     background-color: rgb(var(--q-grey))
 
-.text-weight-semibold
-    font-weight: 600
-
 .opacity-30
     opacity: 0.3
 .opacity-40
     opacity: 0.4
 .opacity-50
     opacity: 0.5
+.opacity-75
+    opacity: 0.75
 
 .elevation-1
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.05)
@@ -193,9 +192,6 @@ body.desktop .q-hoverable:hover > .q-focus-helper
 .flex
     display: flex
 
-.flex-column
-    flex-direction: column
-
 .flex-grow
     flex-grow: 1
 
@@ -205,8 +201,69 @@ body.desktop .q-hoverable:hover > .q-focus-helper
 .top-xxl
     top: ($flex-gutter-xl * 1.25)
 
+.min-height-none
+    min-height: 0
+
+.min-width-16
+    min-width: 16em !important
+
+.min-width-25
+    min-width: 25em !important
+
 .max-width-100
     max-width: 100%
 
+.max-width-25
+    max-width: 25em
+
+.max-width-15
+    max-width: 15em
+
 .min-width-none
     min-width: 0
+
+.disabled
+    cursor: not-allowed
+    &:active
+        pointer-events: none
+
+.q-field--standout.q-field--highlighted
+    .q-field__native,
+    .q-field__input,
+    .q-field__append
+        color: $grey-10
+
+.q-field--standout
+    .q-field__control
+        background-color: transparent
+        &:hover::before
+            opacity: 0.35
+
+    &.q-field--highlighted
+        .q-field__control
+            background: $grey-1
+            box-shadow: $shadow-4
+
+.q-field__label
+    font-size: 14px
+    letter-spacing: 0
+
+.q-table tbody td
+    font-size: 12px
+
+.q-menu.dropdown
+    margin-top: $flex-gutter-xs !important
+
+.q-menu.filter
+    margin-top: 1px !important
+
+.underline-dotted
+    text-decoration: underline
+    text-decoration-style: dotted
+
+.border-dotted
+    border-width: 1px
+    border-style: dotted
+
+.text-wrap
+    white-space: normal

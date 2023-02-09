@@ -23,7 +23,6 @@ const authStore = useAuthStore();
 const $route = useRoute();
 
 const authInitted = toRef(authStore, "initted");
-console.log(authInitted.value);
 
 authStore.init();
 </script>

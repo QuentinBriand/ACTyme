@@ -81,7 +81,7 @@ module.exports = {
         // The core 'import/named' rules
         // does not work with type definitions
         "import/named": "off",
-
+        "func-call-spacing": ["error", "never"],
         "prefer-promise-reject-errors": "off",
 
         quotes: ["warn", "double", { avoidEscape: true }],
@@ -99,11 +99,7 @@ module.exports = {
         // allow debugger during development only
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        indent: [
-            "error",
-            4,
-            { SwitchCase: 1 },
-        ],
+        indent: ["error", 4, { SwitchCase: 1 }],
 
         semi: ["error", "always"],
         "comma-dangle": ["error", "only-multiline"],

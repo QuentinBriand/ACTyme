@@ -1,45 +1,77 @@
 <template>
     <ul class="custom-ul">
         <li style="width: 90%">
-            <ul style="padding-left: 0 ">
-                <li>{{ props.detail.title }}</li>
+            <ul style="padding-left: 0">
+                <span class="underline-dotted">
+                    {{ props.element.title }}
+                    <q-popup-edit v-model="title" auto-save v-slot="scope">
+                        <q-input
+                            v-model="scope.value"
+                            dense
+                            autofocus
+                            @update:model-value="
+                                emit(
+                                    'update:title',
+                                    scope.value,
+                                    props.element.id
+                                )
+                            "
+                        />
+                    </q-popup-edit>
+                </span>
                 <li v-if="!props.isCriteria" class="item-details">
-                    <q-checkbox v-model="checkboxValue" v-if="(props.detail as MatrixAction).type == 'checkbox'"/>
-                    <q-linear-progress v-else
-                        clickable style="width: 100%; margin-top: 12px; margin-bottom: 12px"
-                        stripe rounded size="25px" color="accent"
+                    <q-checkbox
+                        v-model="checkboxValue"
+                        v-if="(props.element as MatrixAction).type == 'checkbox'"
+                    />
+                    <q-linear-progress
+                        v-else
+                        clickable
+                        style="
+                            width: 100%;
+                            margin-top: 12px;
+                            margin-bottom: 12px;
+                        "
+                        stripe
+                        rounded
+                        size="25px"
+                        color="accent"
                         :value="progress1"
                         @click="updateProgress()"
                     >
                         <div class="absolute-full flex flex-center">
-                            <q-badge color="white" text-color="accent" :label="formattedState()" />
+                            <q-badge
+                                color="white"
+                                text-color="accent"
+                                :label="formattedState()"
+                            />
                         </div>
                     </q-linear-progress>
                 </li>
             </ul>
         </li>
     </ul>
-    <div class="list-linkings" v-if=props.isCriteria>
+    <div class="list-linkings" v-if="props.isCriteria">
         <q-btn
-            v-for="action in (props.detail as MatrixCriteria).impactedActionsIds"
+            v-for="action in (props.element as MatrixCriteria).impactedActionsIds"
             :key="action"
             class="linkings"
             push
             color="blue"
             :label="action"
             @click="props.goTo(action)"
-            />
+        />
     </div>
     <div class="list-linkings" v-else>
         <q-btn
-            v-for="criteria in (props.detail as MatrixAction).impactedCriteriaIds"
+            v-for="criteria in (props.element as MatrixAction).impactedCriteriaIds"
             :key="criteria"
             class="linkings"
             push
             color="orange"
             :label="criteria"
             @click="props.goTo(criteria)"
-            />
+        />
     </div>
 </template>
 
@@ -48,18 +80,26 @@ import { defineProps, ref, watch } from "vue";
 import { MatrixAction, MatrixCriteria } from "src/types/Matrix";
 
 const props = defineProps<{
-    detail: MatrixCriteria | MatrixAction;
+    element: MatrixCriteria | MatrixAction;
     isCriteria: boolean;
-    goTo:(action: number) => void;
+    // eslint-disable-next-line func-call-spacing
+    goTo: (action: number) => void;
 }>();
 
-const checkboxValue = ref((props.detail as MatrixAction).checked);
-watch(checkboxValue, (value) => {
-    (props.detail as MatrixAction).checked = value;
+// eslint-disable-next-line func-call-spacing
+const emit = defineEmits<{
+    (event: "update:title", title: string, id: number): void;
+}>();
+
+const title = ref(props.element.title);
+
+const checkboxValue = ref((props.element as MatrixAction).checked);
+watch(checkboxValue, value => {
+    (props.element as MatrixAction).checked = value;
 });
 
 const progress1 = ref(0.0);
-const stateValue = (props.detail as MatrixAction).state;
+const stateValue = (props.element as MatrixAction).state;
 
 switch (stateValue) {
     case "notStarted":
@@ -77,22 +117,20 @@ switch (stateValue) {
 }
 
 const formattedState = () => {
-    const state = (props.detail as MatrixAction).state;
+    const state = (props.element as MatrixAction).state;
     if (state === undefined) return "Non défini";
-    return state
-        .replace(/([A-Z])/g, " $1")
-        .replace(/^./, function (str) {
-            return str.toUpperCase();
-        });
+    return state.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+        return str.toUpperCase();
+    });
 };
 
 const updateProgress = () => {
     progress1.value = progress1.value < 1.0 ? progress1.value + 0.5 : 1;
     if (progress1.value > 0.0) {
-        (props.detail as MatrixAction).state = "inProgress";
+        (props.element as MatrixAction).state = "inProgress";
     }
     if (progress1.value >= 1.0) {
-        (props.detail as MatrixAction).state = "done";
+        (props.element as MatrixAction).state = "done";
     }
 };
 </script>
@@ -117,5 +155,4 @@ ul
     justify-content: right
     align-items: center
     user-select: none
-
 </style>

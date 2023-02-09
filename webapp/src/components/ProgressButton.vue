@@ -1,30 +1,37 @@
 <template>
     <q-circular-progress
-        :value="getActionsPercentage([])"
+        :value="getActionsPercentage(cell)"
         :min="0"
         :max="1"
         size="2.5rem"
-        color="orange"
+        color="blue"
+        track-color="grey-3"
         class="container"
         :thickness="0.2"
         reverse
     />
     <q-circular-progress
-        :value="getCriteriaPercentage([])"
+        :value="getCriteriaPercentage(cell)"
         :min="0"
         :max="1"
         size="3.5rem"
-        color="blue"
+        color="orange"
+        track-color="grey-3"
         class="container"
         :thickness="0.15"
     />
 </template>
 
 <script setup lang="ts">
+import { QCircularProgress } from "quasar";
 import {
     getActionsPercentage,
     getCriteriaPercentage,
 } from "src/helpers/matrix.helper";
+import { TableCell } from "src/types/TableCell";
+defineProps<{
+    cell: TableCell;
+}>();
 </script>
 
 <style scope lang="sass">

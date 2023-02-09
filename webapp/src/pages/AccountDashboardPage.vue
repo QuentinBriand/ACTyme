@@ -3,7 +3,7 @@
     <page-content-loader
         v-if="!userProfileStore.initted && !matrixStore.initted"
     />
-    <matrix-table v-else />
+    <matrix-table v-else :current-matrix="matrixStore._currentMatrix!" />
 </template>
 
 <script setup lang="ts">
@@ -19,9 +19,10 @@ const matrixStore = useMatrixStore();
 userProfileStore.init();
 matrixStore.init();
 
-if (matrixStore._currentMatrix === null) {
+if (matrixStore._currentMatrix == null) {
     throw new Error("Matrix is null");
 }
+
 const actions: ISidebarActions[] = [
     {
         name: "projects",

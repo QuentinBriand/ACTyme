@@ -1,67 +1,78 @@
 import * as functions from "firebase-functions";
-import * as express from "express";
-import validateFirebaseIdToken from "./authMiddleware";
-// import * as cors from "cors";
-
 import * as admin from "firebase-admin";
-admin.initializeApp();
+import * as express from "express";
+import * as cors from "cors";
+
+
+admin.initializeApp({
+  credential: admin.credential.cert("permissions.json"),
+  databaseURL: "https://actyme-d2c12-default-rtdb.europe-west1.firebasedatabase.app",
+});
 
 const app = express();
-app.use(validateFirebaseIdToken);
+const db = admin.firestore();
 
-app.post("/api/create_table/", validateFirebaseIdToken, async (req, res) => {
-    const table = req.body;
-    await admin.firestore().collection("tables").add(table).then((docRef) => {
-        res.status(200).send(docRef);
-        return;
-    }).catch((error) => {
-        res.status(500).send(error);
-        return;
-    });
-    res.status(201).send();
+app.use(cors({origin: true}));
+
+app.post("/api/create_table", (req, res) => {
+  (async () => {
+    try {
+      const addRes = await db.collection("tables").add(
+          req.body.table
+      );
+      return res.status(200).send( {
+        table_id: addRes.id,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  });
 });
 
-app.put("/api/table/:id/content", validateFirebaseIdToken, async (req, res) => {
-    const id = req.params.id;
-    if (!req.body) return;
-    await admin.firestore().collection("tables")
-        .doc(id).set(req.body)
-        .catch(
-            (error) => {
-                res.status(500).send(error);
-                return;
-            }
-        );
-    res.status(200).send();
+app.patch("/api/update_table/:id", (req, res) => {
+  (async () => {
+    try {
+      await db.collection("tables").doc(req.params.id).update(
+          req.body.table
+      );
+      return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  });
 });
 
-app.post("/api/table/:id/invite/",
-    validateFirebaseIdToken, async (req:any, res) => {
-        const tableId : string = req.params.id;
-        const inviterId : string = req.user.user_id;
-        if (req.body === undefined) {
-            res.status(400).send({error: "No body sent"});
-            return;
-        }
-        const invitedEmail : string|undefined = req.body?.email;
-        if (invitedEmail === undefined) {
-            res.status(400).send({error: "No body sent"});
-            return;
-        }
-        const uid = await admin.auth().getUserByEmail(invitedEmail);
-        // await admin.firestore().collection(`invites/${inviterId}`).add(
-        //
-        // );
-        await admin.firestore().collection().get()
-        res.status(404).send();
-    });
+app.delete("/api/delete_table/:id", (req, res) => {
+  (async () => {
+    try {
+      await db.collection("tables").doc(req.params.id).delete();
+      return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  });
+});
 
-exports.user = functions.https.onRequest(app);
+app.get("/api/get_tables/:id", (req, res) => {
+  (async () => {
+    try {
+      await db.collection("users").doc(req.params.id).get().then((doc) => {
+        const data = doc.data();
+        if (doc.exists && data != undefined) {
+          return res.status(200).send(data.tables);
+        } else {
+          return res.status(404).send();
+        }
+      });
+      return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  });
+});
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+exports.app = functions.https.onRequest(app);

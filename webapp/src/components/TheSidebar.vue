@@ -63,7 +63,7 @@ const handleClickItem = (routeName: string) => {
     collapsed.value = false;
     switch (routeName) {
         default:
-            goto(routeName);
+            goto({ name: routeName });
             break;
     }
 };

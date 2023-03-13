@@ -38,7 +38,7 @@ export default route(function (/* { store, ssrContext } */) {
         if (authStore.isLogged === true) {
             // Landing page?
             if (to.name === "landing") {
-                return next({ name: "main" });
+                return next({ name: "account.dashboard" });
             }
 
             // Has a redirect? (to manage deep links).

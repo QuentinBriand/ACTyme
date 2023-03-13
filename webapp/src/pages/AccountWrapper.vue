@@ -3,7 +3,7 @@
     <page-content-loader
         v-if="!userProfileStore.initted && !matrixStore.initted"
     />
-    <matrix-table v-else :current-matrix="matrixStore._currentMatrix!" />
+    <router-view v-else />
 </template>
 
 <script setup lang="ts">
@@ -12,7 +12,6 @@ import TheSidebar from "src/components/TheSidebar.vue";
 import { useMatrixStore } from "src/stores/matrix.store";
 import { useUserProfileStore } from "src/stores/userProfile.store";
 import { ISidebarActions } from "src/types/ISidebarActions";
-import MatrixTable from "src/components/MatrixTable.vue";
 const userProfileStore = useUserProfileStore();
 const matrixStore = useMatrixStore();
 
@@ -26,19 +25,19 @@ if (matrixStore._currentMatrix == null) {
 const actions: ISidebarActions[] = [
     {
         name: "projects",
-        routeName: "partner.projects",
+        routeName: "account.matrixes",
         icon: "projects",
         label: "accountInfos.fields.projects.label",
     },
-    {
-        name: "users",
-        routeName: "partner.users",
-        icon: "users",
-        label: "accountInfos.fields.users.label",
-    },
+    // {
+    // name: "users",
+    // routeName: "partner.users",
+    // icon: "users",
+    // label: "accountInfos.fields.users.label",
+    // },
     {
         name: "details",
-        routeName: "partner.details",
+        routeName: "account.details",
         icon: "informations",
         label: "accountInfos.fields.partnerAccount.label",
     },

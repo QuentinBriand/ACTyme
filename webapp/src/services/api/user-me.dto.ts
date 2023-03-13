@@ -1,7 +1,7 @@
-import firebase from "firebase/compat";
-import { UserProfileMatrixDto } from "./user-profile-matrix.dto";
-
 export interface UserMeResponse {
-    user: firebase.User;
-    matrices: UserProfileMatrixDto[];
+    email: string;
+    emailVerified: boolean;
+    displayName?: string;
+    photoURL?: string;
+    uid: string;
 }

@@ -18,10 +18,10 @@ export default boot(({ app }) => {
     const api = useApi();
     const authStore = useAuthStore();
     api.setConfig({
-        baseUrl: process.env.API_BASE_URL ?? "Not Found",
+        baseUrl: window.process.env.APP_API_AUTH_BASE_URL ?? "Not Found",
         addSleepSeconds:
-            process.env.API_ADD_SLEEP_SECONDS !== undefined
-                ? parseInt(process.env.API_ADD_SLEEP_SECONDS)
+            window.process.env.API_ADD_SLEEP_SECONDS !== undefined
+                ? parseInt(window.process.env.API_ADD_SLEEP_SECONDS)
                 : undefined,
     });
     api.setCallbacks(
@@ -31,7 +31,7 @@ export default boot(({ app }) => {
             }
         },
         () => ({
-            accessToken: "",
+            accessToken: authStore.accessToken,
         })
     );
     app.use(() => api);

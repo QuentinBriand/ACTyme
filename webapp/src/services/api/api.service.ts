@@ -1,10 +1,13 @@
 import axios, { AxiosInstance } from "axios";
+import { getAnalytics, setUserProperties } from "firebase/analytics";
 import firebase from "firebase/compat/app";
 import { auth } from "src/boot/firebase";
 import { ActymeError, ActymeErrorData } from "src/classes/ActymeError";
 import { Configurable } from "src/classes/Configurable";
 import { Matrix } from "src/types/Matrix";
+import { PasswordRequestBodyDto } from "./password-request.dto";
 import { UserMeResponse } from "./user-me.dto";
+
 /**
  * API config interface.
  */
@@ -40,6 +43,7 @@ export class ApiUnauthorizedError extends ApiError {
 
 export interface ApiAuthTokens {
     accessToken: string | null;
+    refreshToken: string | null;
 }
 
 export type ApiSetAuthTokensCallback = (tokens: Partial<ApiAuthTokens>) => void;
@@ -90,112 +94,74 @@ export class Api extends Configurable<ApiConfig> {
         if (this._user === null) {
             throw new Error("Authentification failed");
         }
-        console.log(this._user);
         this.setAuthTokens({
             accessToken: await this._user.getIdToken(),
         });
     }
 
-    public async passwordRequest(email: string): Promise<void> {
-        await this._getUnauthenticatedAxios().post("/auth/password-request", {
-            email,
-        });
+    public async passwordRequest(body: PasswordRequestBodyDto): Promise<void> {
+        const actionCodeSettings: firebase.auth.ActionCodeSettings = {
+            url: "http://localhost:9000/sign-in",
+            handleCodeInApp: true,
+        };
+        auth.sendPasswordResetEmail(body.email, actionCodeSettings);
     }
 
     public async passwordReset(token: string, password: string): Promise<void> {
-        await this._getUnauthenticatedAxios().post("/auth/password-reset", {
-            token,
-            password,
-        });
+        auth.confirmPasswordReset(token, password);
     }
 
     public async getMe(): Promise<UserMeResponse> {
-        if (this._user === null) {
-            this._user = auth.currentUser;
-        }
+        const request = {
+            idToken: this.getAuthTokens().accessToken,
+        };
+
+        const res = await this._getAuthenticatedAxios().post(
+            "accounts:lookup?key=" + window.process.env.FIREBASE_API_KEY,
+            request
+        );
+        console.log(res.data);
+        const analytics = getAnalytics();
+        setUserProperties(analytics, {});
+        const user: UserMeResponse = {
+            email: res.data.users[0].email,
+            emailVerified: res.data.users[0].emailVerified,
+            displayName: res.data.users[0].displayName,
+            photoURL: res.data.users[0].photoURL,
+            uid: res.data.users[0].localId,
+        };
+        return user;
+    }
+
+    public async updateUser(user: UserMeResponse): Promise<UserMeResponse> {
+        const request = {
+            idToken: this.getAuthTokens().accessToken,
+            displayName: user.displayName,
+            photoUrl: user.photoURL,
+            email: user.email,
+        };
+
+        const res = await this._getAuthenticatedAxios().post(
+            "accounts:update?key=" + window.process.env.FIREBASE_API_KEY,
+            request
+        );
         return {
-            // TODO: @QB add api endpoint
-            user: this._user || ({} as firebase.User),
-            // TODO: @QB add api endpoint to get matrices
-            matrices: [
-                {
-                    id: "L6HN6W1WX5QCDBH6Toab",
-                    title: "Test matrix",
-                    userRoleOnMatrix: "admin",
-                },
-            ],
+            email: res.data.email,
+            emailVerified: res.data.emailVerified,
+            displayName: res.data.displayName,
+            photoURL: res.data.photoUrl,
+            uid: res.data.localId,
         };
     }
 
     public async getMatrix(matrixId: number): Promise<Matrix> {
-        // const response = await this._getAuthenticatedAxios().get(
-        // `/matrix/${matrixId}`
-        // );
-        const matrix: Matrix = {
-            id: "L6HN6W1WX5QCDBH6Toab",
-            title: "Test matrix",
-            cells: [
-                {
-                    id: 1,
-                    note: 0,
-                    actions: [
-                        {
-                            id: 1,
-                            title: "First action",
-                            type: "checkbox",
-                            checked: false,
-                            impactedCriteriaIds: [1],
-                        },
-                        {
-                            id: 2,
-                            title: "Second action",
-                            type: "progress",
-                            state: "inProgress",
-                            impactedCriteriaIds: [2],
-                        },
-                    ],
-                    criteria: [
-                        {
-                            id: 1,
-                            title: "First criterion",
-                            impactedActionsIds: [1, 2],
-                        },
-                        {
-                            id: 2,
-                            title: "Second criterion",
-                            impactedActionsIds: [2],
-                        },
-                    ],
-                },
-            ],
-            determinantsKeys: [
-                {
-                    id: 1,
-                    title: "First key",
-                },
-                {
-                    id: 2,
-                    title: "Second key",
-                },
-            ],
-            success_keys: [
-                {
-                    id: 1,
-                    title: "First key",
-                },
-                {
-                    id: 2,
-                    title: "Second key",
-                },
-            ],
-        };
-        return matrix;
+        return {} as Matrix;
     }
 
     private _getUnauthenticatedAxios(): AxiosInstance {
         if (this._unauthenticatedAxios === undefined) {
             this._unauthenticatedAxios = axios.create({
-                baseURL: this.getConfig().baseUrl,
+                baseURL: "https://identitytoolkit.googleapis.com/v1",
             });
             this._unauthenticatedAxios.interceptors.request.use(
                 async requestConfig => {
@@ -245,9 +211,9 @@ export class Api extends Configurable<ApiConfig> {
                     if (requestConfig.headers === undefined) {
                         requestConfig.headers = {};
                     }
-                    requestConfig.headers.Authorization = `Bearer ${
-                        this.getAuthTokens().accessToken
-                    }`;
+                    requestConfig.headers.Authorization = {
+                        Bearer: this.getAuthTokens().accessToken,
+                    };
                     return requestConfig;
                 }
             );
@@ -258,7 +224,12 @@ export class Api extends Configurable<ApiConfig> {
                 },
                 async error => {
                     // Manage the case when the access token is expired.
-                    if (error?.response?.data?.name === "auth.expiredToken") {
+                    if (
+                        error.response.data.error.message ===
+                        "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"
+                    ) {
+                        console.log("CREDENTIAL_TOO_OLD_LOGIN_AGAINazaze");
+
                         // So, refresh token.
                         await this._doRefreshToken();
                         // And then, replay the request.
@@ -287,27 +258,45 @@ export class Api extends Configurable<ApiConfig> {
             if (this._user === null) {
                 throw new Error("Must be logged in");
             }
-            this._user
-                .getIdToken()
-                .then(token => {
-                    this.setAuthTokens({
-                        accessToken: token,
-                    });
-                    resolve();
+            const refreshAxios = axios.create({
+                baseURL: "https://securetoken.googleapis.com/v1",
+
+                headers: {
+                    Authorization: {
+                        Bearer: this.getAuthTokens().accessToken,
+                    },
+                },
+
+                params: {
+                    key: window.process.env.FIREBASE_API_KEY,
+                },
+            });
+
+            refreshAxios
+                .post("token?key=" + window.process.env.FIREBASE_API_KEY, {
+                    grant_type: "refresh_token",
+                    refresh_token: this.getAuthTokens().refreshToken,
                 })
-                .catch(error => {
+                .then(res => {
+                    this.setAuthTokens({
+                        accessToken: res.data.id_token,
+                        refreshToken: res.data.refresh_token,
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    this._user = null;
                     this.setAuthTokens({
                         accessToken: null,
+                        refreshToken: null,
                     });
-                    // Manage errors: if refresh token is expired, throw an unauthorized exception.
-                    if (error?.response?.data?.name === "auth.expiredToken") {
-                        reject(new ApiUnauthorizedError());
-                    } else {
-                        reject(new ApiInternalError(error));
-                    }
+                    reject(err);
                 })
                 .finally(() => {
                     this._refreshTokenPromise = null;
+
+                    // And then, replay the request.
+                    resolve();
                 });
         });
         return this._refreshTokenPromise;

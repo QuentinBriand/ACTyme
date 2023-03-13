@@ -1,15 +1,11 @@
-import { RouteLocationRaw, RouteParams, useRoute, useRouter } from "vue-router";
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
 
 export function useNavigate() {
     const $router = useRouter();
     const $route = useRoute();
 
-    const goto = (name: string, params?: RouteParams) => {
-        $router.push({
-            name,
-            query: { redirect: $route.query.redirect },
-            params,
-        });
+    const goto = (query: RouteLocationRaw) => {
+        $router.push(query);
     };
 
     const gotoBack = () => {

@@ -1,17 +1,17 @@
 import { defineStore } from "pinia";
-import firebase from "firebase/compat/app";
+import { UserMeResponse } from "src/services/api/user-me.dto";
 
 export interface AuthStoreType {
     initted: boolean;
+    loading: boolean;
     accessToken: string | null; // Null means, no access token (or expired)
-    user: firebase.User | null;
 }
 
 const _useAuthStore = defineStore("auth", {
     state: (): AuthStoreType => ({
         initted: false,
+        loading: false,
         accessToken: null,
-        user: null,
     }),
 
     getters: {
@@ -21,7 +21,9 @@ const _useAuthStore = defineStore("auth", {
     },
 
     actions: {
-        init() {
+        async init() {
+            if (this.loading === true) return;
+            this.loading = true;
             if (this.initted === true) {
                 return;
             }
@@ -31,6 +33,8 @@ const _useAuthStore = defineStore("auth", {
             } catch (error) {
                 this.$reset();
                 throw error;
+            } finally {
+                this.loading = false;
             }
         },
 

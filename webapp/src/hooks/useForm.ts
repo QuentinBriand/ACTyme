@@ -11,12 +11,13 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Indigen Solutions.
  */
+import cloneDeep from "lodash/cloneDeep";
 import { useNotify } from "src/hooks/useNotify";
 import { ref } from "vue";
 
-export interface IFormData {
-    [key: string]: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type IFormData = Record<string, any>;
+
 type TFormStatus = "idle" | "submitting";
 
 interface IFormProps {
@@ -29,7 +30,7 @@ interface IFormProps {
 export const useForm = ({ data, handleSubmit, labels }: IFormProps) => {
     const { notifySuccess, notifyError } = useNotify();
 
-    const formData = ref(data);
+    const formData = ref(cloneDeep(data));
     const formStatus = ref<TFormStatus>("idle");
 
     const onSubmit = async () => {
@@ -42,10 +43,15 @@ export const useForm = ({ data, handleSubmit, labels }: IFormProps) => {
             }
         } catch (error) {
             notifyError(error);
+            onReset();
         } finally {
             formStatus.value = "idle";
         }
     };
 
-    return { formData, formStatus, onSubmit };
+    const onReset = () => {
+        formData.value = cloneDeep(data);
+    };
+
+    return { formData, formStatus, onSubmit, onReset };
 };

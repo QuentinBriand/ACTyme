@@ -22,7 +22,10 @@
             />
         </div>
         <div class="row no-wrap items-center justify-between gap-lg">
-            <router-link class="text-grey-7 text-body2" :to="{ path: '/' }">
+            <router-link
+                class="text-grey-7 text-body2"
+                :to="{ path: 'password-request' }"
+            >
                 {{ $t("signIn.requestPassword") }}
             </router-link>
             <button-submit
@@ -53,7 +56,9 @@ const { formData, formStatus, onSubmit } = useForm({
     },
     handleSubmit: async ({ email, password }) => {
         await api.signIn(email, password);
-        goto("account.dashboard");
+        goto({
+            name: "account.dashboard",
+        });
     },
 });
 </script>

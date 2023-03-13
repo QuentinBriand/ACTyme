@@ -4,13 +4,14 @@ import { defineStore } from "pinia";
 
 import { ActymeError } from "src/classes/ActymeError";
 import { useApi } from "src/hooks/useApi";
+import { UserMeResponse } from "src/services/api/user-me.dto";
 import { UserProfileMatrixDto } from "src/services/api/user-profile-matrix.dto";
 
 export interface UserProfileType {
     initted: boolean;
     loading: boolean;
 
-    user: firebase.User | null;
+    user: UserMeResponse | null;
     matrices: UserProfileMatrixDto[] | null;
     currentMatrixId: string | null;
 }
@@ -64,10 +65,7 @@ export const useUserProfileStore = defineStore("userProfile", {
             try {
                 this.loading = true;
 
-                const me = await api.getMe();
-
-                // this.user = me.user;
-
+                this.user = await api.getMe();
                 // this.matrices = me.matrices;
 
                 this.initted = true;
@@ -76,6 +74,18 @@ export const useUserProfileStore = defineStore("userProfile", {
                 throw error;
             } finally {
                 this.loading = false;
+            }
+        },
+        async updateUser(user: UserMeResponse) {
+            if (this.user === null) {
+                throw new Error("User is not initted");
+            }
+            const api = useApi();
+            try {
+                const res = await api.updateUser(user);
+                this.user = res;
+            } catch (error) {
+                throw new Error("Failed to update user");
             }
         },
     },

@@ -1,0 +1,11 @@
+"/api/get_tables/:id"
+{
+}
+
+
+Returns =>
+
+{
+    "id_table" = { /*Content */ }
+    ...
+}

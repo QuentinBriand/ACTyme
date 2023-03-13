@@ -1,0 +1,11 @@
+"/api/create_table"
+{
+    "table" = {
+        /* Contents of the table */
+    }
+}
+
+Returns =>
+{
+    table_id = "EQSqzesqsxdeZAazd54"
+}

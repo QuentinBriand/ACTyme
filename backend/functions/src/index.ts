@@ -3,7 +3,6 @@ import * as admin from "firebase-admin";
 import * as express from "express";
 import * as cors from "cors";
 
-
 admin.initializeApp({
   credential: admin.credential.cert("permissions.json"),
   databaseURL: "https://actyme-d2c12-default-rtdb.europe-west1.firebasedatabase.app",
@@ -27,6 +26,12 @@ app.post("/api/create_table", (req, res) => {
       console.log(error);
       return res.status(500).send(error);
     }
+  });
+});
+
+app.get("/test", (req, res) => {
+  (async () => {
+    return res.status(200).send({test: "test"});
   });
 });
 
@@ -76,3 +81,15 @@ app.get("/api/get_tables/:id", (req, res) => {
 });
 
 exports.app = functions.https.onRequest(app);
+
+exports.addTableToUser =
+functions.firestore.document("tables/{tableId}").onCreate((snap, context) => {
+  const newValue = snap.data();
+  const tableId = context.params.tableId;
+  const userId = newValue?.owner;
+  if (userId != undefined) {
+    db.collection("users").doc(userId).update({
+      tables: admin.firestore.FieldValue.arrayUnion(tableId),
+    });
+  }
+});

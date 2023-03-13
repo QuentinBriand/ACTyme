@@ -1,0 +1,10 @@
+"/api/update_table/:id"
+{
+    "table" = {
+        /* Contents of the table */
+    }
+}
+
+Returns =>
+{
+}

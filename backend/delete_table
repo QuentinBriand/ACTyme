@@ -1,0 +1,6 @@
+"/api/delete_table/:id"
+{
+}
+
+
+Returns => Nothing

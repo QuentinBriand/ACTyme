@@ -24,9 +24,11 @@
             v-else-if="cell.type === 'determinant'"
             class="row justify-between items-center"
         >
-            <span>
-                {{ cell.title }}
-            </span>
+            <popup-edit-title
+                :id="cell.id"
+                :title="cell.title"
+                @update:title="emit('update:detetminantTitle', $event, cell.id)"
+            />
             <q-btn v-if="cell.last" round :ripple="false" @click="addCell">
                 +
             </q-btn>
@@ -35,9 +37,11 @@
             v-else-if="cell.type === 'success'"
             class="column justify-between items-center"
         >
-            <span>
-                {{ cell.title }}
-            </span>
+            <popup-edit-title
+                :id="cell.id"
+                :title="cell.title"
+                @update:title="emit('update:successTitle', $event, cell.id)"
+            />
             <q-btn
                 v-if="cell.last"
                 class="q-mt-sm q-mb-none"
@@ -56,11 +60,20 @@ import { useMatrixStore } from "src/stores/matrix.store";
 import { TableCell } from "src/types/TableCell";
 import { provide } from "vue";
 import PopupButton from "./PopupButton.vue";
+import PopupEditTitle from "./PopupEditTitle.vue";
 import ProgressButton from "./ProgressButton.vue";
+
 const props = defineProps<{
     cell: TableCell;
 }>();
 const matrixStore = useMatrixStore();
+
+// eslint-disable-next-line func-call-spacing
+const emit = defineEmits<{
+    (event: "update:detetminantTitle", title: string, id: number): void;
+    (event: "update:successTitle", title: string, id: number): void;
+}>();
+
 const addCell = () => {
     if (props.cell.type === "determinant") {
         matrixStore.addEmptyDeterminantKey();

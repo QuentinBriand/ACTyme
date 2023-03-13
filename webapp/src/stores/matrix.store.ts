@@ -111,7 +111,7 @@ export const useMatrixStore = defineStore("matrix", {
                 return;
             }
             this._currentMatrix.determinantsKeys.push({
-                id: this._currentMatrix.determinantsKeys.length,
+                id: this._currentMatrix.determinantsKeys.length + 1,
                 title: "Nouveau Determinant",
             });
             for (let i = 1; i <= this._currentMatrix.successKeys.length; i++) {
@@ -127,12 +127,12 @@ export const useMatrixStore = defineStore("matrix", {
             console.log("addEmptySuccessKey");
             if (
                 this._currentMatrix === null ||
-                this._currentMatrix.successKeys.length === 10
+                this._currentMatrix.successKeys.length === 5
             ) {
                 return;
             }
             this._currentMatrix.successKeys.push({
-                id: this._currentMatrix.successKeys.length,
+                id: this._currentMatrix.successKeys.length + 1,
                 title: "Nouveau Succès",
             });
             for (
@@ -146,6 +146,9 @@ export const useMatrixStore = defineStore("matrix", {
                         1
                 );
             }
+            this._currentMatrix.cells.forEach((cell, index) => {
+                cell.id = index;
+            });
         },
         addActionToCell(cellId: number, action: MatrixAction) {
             if (this._currentMatrix === null) {
@@ -177,6 +180,32 @@ export const useMatrixStore = defineStore("matrix", {
             ].actions.findIndex(action => action.id === actionId);
             this._currentMatrix.cells[cellIndex].actions[actionIndex].title =
                 title;
+        },
+        updateDeterminantKeyTitle(
+            determinantKeyId: number,
+            title: string
+        ): void {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const determinantKeyIndex =
+                this._currentMatrix.determinantsKeys.findIndex(
+                    determinantKey => determinantKey.id === determinantKeyId
+                );
+            this._currentMatrix.determinantsKeys[determinantKeyIndex].title =
+                title;
+        },
+        updateSuccessKeyTitle(successKeyId: number, title: string): void {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const successKeyIndex = this._currentMatrix.successKeys.findIndex(
+                successKey => successKey.id === successKeyId
+            );
+            this._currentMatrix.successKeys[successKeyIndex].title = title;
+        },
+        setMatrix(matrix: Matrix) {
+            this._currentMatrix = matrix;
         },
     },
 });

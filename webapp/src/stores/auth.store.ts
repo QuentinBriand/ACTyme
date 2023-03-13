@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { UserMeResponse } from "src/services/api/user-me.dto";
 
 export interface AuthStoreType {
     initted: boolean;
     loading: boolean;
     accessToken: string | null; // Null means, no access token (or expired)
+    refreshToken: string | null; // Null means, no refresh token (or expired)
 }
 
 const _useAuthStore = defineStore("auth", {
@@ -12,6 +12,7 @@ const _useAuthStore = defineStore("auth", {
         initted: false,
         loading: false,
         accessToken: null,
+        refreshToken: null,
     }),
 
     getters: {
@@ -45,6 +46,15 @@ const _useAuthStore = defineStore("auth", {
                 sessionStorage.setItem("auth.accessToken", accessToken);
             }
             this.accessToken = accessToken;
+        },
+
+        setRefreshToken(refreshToken: string | null) {
+            if (refreshToken === null) {
+                localStorage.removeItem("auth.refreshToken");
+            } else {
+                localStorage.setItem("auth.refreshToken", refreshToken);
+            }
+            this.refreshToken = refreshToken;
         },
     },
 });

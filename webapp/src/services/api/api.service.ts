@@ -96,6 +96,7 @@ export class Api extends Configurable<ApiConfig> {
         }
         this.setAuthTokens({
             accessToken: await this._user.getIdToken(),
+            refreshToken: await this._user.refreshToken,
         });
     }
 
@@ -115,7 +116,6 @@ export class Api extends Configurable<ApiConfig> {
         const request = {
             idToken: this.getAuthTokens().accessToken,
         };
-
         const res = await this._getAuthenticatedAxios().post(
             "accounts:lookup?key=" + window.process.env.FIREBASE_API_KEY,
             request
@@ -226,10 +226,9 @@ export class Api extends Configurable<ApiConfig> {
                     // Manage the case when the access token is expired.
                     if (
                         error.response.data.error.message ===
-                        "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"
+                            "CREDENTIAL_TOO_OLD_LOGIN_AGAIN" ||
+                        error.response.data.error.message === "INVALID_ID_TOKEN"
                     ) {
-                        console.log("CREDENTIAL_TOO_OLD_LOGIN_AGAINazaze");
-
                         // So, refresh token.
                         await this._doRefreshToken();
                         // And then, replay the request.
@@ -255,9 +254,6 @@ export class Api extends Configurable<ApiConfig> {
 
         // OK create promise to refresh token.
         this._refreshTokenPromise = new Promise((resolve, reject) => {
-            if (this._user === null) {
-                throw new Error("Must be logged in");
-            }
             const refreshAxios = axios.create({
                 baseURL: "https://securetoken.googleapis.com/v1",
 
@@ -271,7 +267,7 @@ export class Api extends Configurable<ApiConfig> {
                     key: window.process.env.FIREBASE_API_KEY,
                 },
             });
-
+            console.log(this.getAuthTokens().refreshToken);
             refreshAxios
                 .post("token?key=" + window.process.env.FIREBASE_API_KEY, {
                     grant_type: "refresh_token",
@@ -286,15 +282,14 @@ export class Api extends Configurable<ApiConfig> {
                 .catch(err => {
                     console.log(err);
                     this._user = null;
-                    this.setAuthTokens({
-                        accessToken: null,
-                        refreshToken: null,
-                    });
+                    // this.setAuthTokens({
+                    // accessToken: null,
+                    // refreshToken: null,
+                    // });
                     reject(err);
                 })
                 .finally(() => {
                     this._refreshTokenPromise = null;
-
                     // And then, replay the request.
                     resolve();
                 });

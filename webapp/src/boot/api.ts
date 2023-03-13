@@ -29,9 +29,13 @@ export default boot(({ app }) => {
             if (tokens.accessToken !== undefined) {
                 authStore.setAccessToken(tokens.accessToken);
             }
+            if (tokens.refreshToken !== undefined) {
+                authStore.setRefreshToken(tokens.refreshToken);
+            }
         },
         () => ({
             accessToken: authStore.accessToken,
+            refreshToken: authStore.refreshToken,
         })
     );
     app.use(() => api);

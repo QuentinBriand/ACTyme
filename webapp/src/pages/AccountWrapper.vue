@@ -18,9 +18,9 @@ const matrixStore = useMatrixStore();
 userProfileStore.init();
 matrixStore.init();
 
-if (matrixStore._currentMatrix == null) {
-    throw new Error("Matrix is null");
-}
+// if (matrixStore._currentMatrix == null) {
+// throw new Error("Matrix is null");
+// }
 
 const actions: ISidebarActions[] = [
     {

@@ -1,11 +1,24 @@
 <template>
     <div v-if="matrixStore._currentMatrix !== null">
-        <span class="text-h3">{{ matrixStore._currentMatrix.title }}</span>
+        <div class="row justify-between">
+            <span class="text-h3">{{ matrixStore._currentMatrix.title }}</span>
+            <button-download
+                label="Télécharger la matrice"
+                :matrix="currentMatrix"
+                :file-title="currentMatrix.title"
+            />
+        </div>
         <div class="grid gap-md q-py-xl">
             <matrix-table-card
                 v-for="cell in tableCells"
                 :key="cell.id + cell.type"
                 :cell="cell"
+                @update:detetminant-title="
+                    matrixStore.updateDeterminantKeyTitle(cell.id, $event)
+                "
+                @update:success-title="
+                    matrixStore.updateSuccessKeyTitle(cell.id, $event)
+                "
             />
         </div>
     </div>
@@ -15,8 +28,10 @@
 import { useMatrixStore } from "src/stores/matrix.store";
 import { Matrix } from "src/types/Matrix";
 import { TableCell } from "src/types/TableCell";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import MatrixTableCard from "./MatrixTableCard.vue";
+import ButtonDownload from "src/components/ButtonDownload.vue";
+
 const matrixStore = useMatrixStore();
 
 const props = defineProps<{

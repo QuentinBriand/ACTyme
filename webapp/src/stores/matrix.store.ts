@@ -74,7 +74,7 @@ export const useMatrixStore = defineStore("matrix", {
 
             // Get some materials.
             // const api = useApi();
-            this._currentMatrix = matrix;
+            // this._currentMatrix = matrix;
             // this._currentMatrix = matrixEmpty;
             // OK, let's go.
             try {
@@ -180,6 +180,50 @@ export const useMatrixStore = defineStore("matrix", {
             ].actions.findIndex(action => action.id === actionId);
             this._currentMatrix.cells[cellIndex].actions[actionIndex].title =
                 title;
+        },
+        updateCellCriteriaTitle(
+            cellId: number,
+            criteriaId: number,
+            title: string
+        ) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const cellIndex = this._currentMatrix.cells.findIndex(
+                cell => cell.id === cellId
+            );
+            const criteriaIndex = this._currentMatrix.cells[
+                cellIndex
+            ].criteria.findIndex(criteria => criteria.id === criteriaId);
+            this._currentMatrix.cells[cellIndex].criteria[criteriaIndex].title =
+                title;
+        },
+        deleteCellAction(cellId: number, actionId: number) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const cellIndex = this._currentMatrix.cells.findIndex(
+                cell => cell.id === cellId
+            );
+            const actionIndex = this._currentMatrix.cells[
+                cellIndex
+            ].actions.findIndex(action => action.id === actionId);
+            this._currentMatrix.cells[cellIndex].actions.splice(actionIndex, 1);
+        },
+        deleteCellCriteria(cellId: number, criteriaId: number) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const cellIndex = this._currentMatrix.cells.findIndex(
+                cell => cell.id === cellId
+            );
+            const criteriaIndex = this._currentMatrix.cells[
+                cellIndex
+            ].criteria.findIndex(criteria => criteria.id === criteriaId);
+            this._currentMatrix.cells[cellIndex].criteria.splice(
+                criteriaIndex,
+                1
+            );
         },
         updateDeterminantKeyTitle(
             determinantKeyId: number,

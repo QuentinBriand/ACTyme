@@ -23,6 +23,7 @@
                                 @update:title="
                                     (title, id) => updateTitle(title, id)
                                 "
+                                @delete="deleteElement"
                             />
                         </q-item>
                         <q-separator
@@ -34,7 +35,17 @@
                 </div>
             </q-card-section>
             <q-card-section class="item-center">
-                <q-btn @click="addElement">Add</q-btn>
+                <q-btn v-if="type === 'Evaluation'" @click="addElement()"
+                    >Ajouter une évaluation</q-btn
+                >
+                <div v-else>
+                    <q-btn @click="addElement('checkbox')"
+                        >Ajouter une checkbox</q-btn
+                    >
+                    <q-btn @click="addElement('progress')"
+                        >Ajouter un progress</q-btn
+                    >
+                </div>
             </q-card-section>
         </q-card>
     </q-dialog>
@@ -42,7 +53,11 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, computed, inject } from "vue";
-import { MatrixAction, MatrixCriteria } from "src/types/Matrix";
+import {
+    MatrixAction,
+    MatrixActionType,
+    MatrixCriteria,
+} from "src/types/Matrix";
 import ListElement from "src/components/ListElement.vue";
 import { useMatrixStore } from "src/stores/matrix.store";
 import { TableCell } from "src/types/TableCell";
@@ -69,16 +84,20 @@ const goToAction = (action: number) => {
     model.value = false;
 };
 
-const addElement = () => {
+const addElement = (type?: MatrixActionType) => {
     if (props.type === "Action") {
         matrixStore.addActionToCell(cell?.id, {
             id: cell.actions![cell.actions!.length - 1]?.id + 1 || 0,
             title: "Nouvelle action",
-            type: "checkbox",
+            type: type || "checkbox",
             checked: false,
         });
     } else {
-        matrixStore.addCriteriaToCell(0, {} as MatrixCriteria);
+        matrixStore.addCriteriaToCell(cell?.id, {
+            id: cell.criteria![cell.criteria!.length - 1]?.id + 1 || 0,
+            title: "Nouveau critère",
+            impactedActionsIds: [],
+        });
     }
 };
 
@@ -86,7 +105,15 @@ const updateTitle = (title: string, id: number) => {
     if (props.type === "Action") {
         matrixStore.updateCellActionTitle(cell?.id, id, title);
     } else {
-        // matrixStore.updateCriteriaTitle(id, title);
+        matrixStore.updateCellCriteriaTitle(cell?.id, id, title);
+    }
+};
+
+const deleteElement = (id: number) => {
+    if (props.type === "Action") {
+        matrixStore.deleteCellAction(cell?.id, id);
+    } else {
+        matrixStore.deleteCellCriteria(cell?.id, id);
     }
 };
 </script>

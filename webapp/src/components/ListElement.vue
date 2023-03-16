@@ -3,18 +3,14 @@
         <li style="width: 90%">
             <ul style="padding-left: 0">
                 <span class="underline-dotted">
-                    {{ props.element.title }}
+                    {{ element.title }}
                     <q-popup-edit v-model="title" auto-save v-slot="scope">
                         <q-input
                             v-model="scope.value"
                             dense
                             autofocus
                             @update:model-value="
-                                emit(
-                                    'update:title',
-                                    scope.value,
-                                    props.element.id
-                                )
+                                emit('update:title', scope.value, element.id)
                             "
                         />
                     </q-popup-edit>
@@ -22,7 +18,7 @@
                 <li v-if="!props.isCriteria" class="item-details">
                     <q-checkbox
                         v-model="checkboxValue"
-                        v-if="(props.element as MatrixAction).type == 'checkbox'"
+                        v-if="(element as MatrixAction).type == 'checkbox'"
                     />
                     <q-linear-progress
                         v-else
@@ -73,6 +69,15 @@
             @click="props.goTo(criteria)"
         />
     </div>
+    <q-btn
+        icon="close"
+        flat
+        round
+        dense
+        :ripple="false"
+        class="no-focus"
+        @click="emit('delete', element.id)"
+    />
 </template>
 
 <script setup lang="ts">
@@ -89,6 +94,7 @@ const props = defineProps<{
 // eslint-disable-next-line func-call-spacing
 const emit = defineEmits<{
     (event: "update:title", title: string, id: number): void;
+    (event: "delete", id: number): void;
 }>();
 
 const title = ref(props.element.title);

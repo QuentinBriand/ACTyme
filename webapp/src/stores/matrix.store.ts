@@ -251,5 +251,8 @@ export const useMatrixStore = defineStore("matrix", {
         setMatrix(matrix: Matrix) {
             this._currentMatrix = matrix;
         },
+        setDefaultMatrix() {
+            this._currentMatrix = matrixEmpty;
+        },
     },
 });

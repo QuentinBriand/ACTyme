@@ -22,6 +22,8 @@
     "eslint-plugin-node": "11",
     "eslint-plugin-promise": "4",
     "firebase": "9.17.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.2.40",

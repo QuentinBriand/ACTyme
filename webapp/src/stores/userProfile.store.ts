@@ -1,4 +1,3 @@
-import firebase from "firebase/compat/app";
 import { chain } from "lodash";
 import { defineStore } from "pinia";
 

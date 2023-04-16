@@ -7,8 +7,7 @@
                 icon="ads_click"
                 tooltip="Evaluations"
                 type="Evaluation"
-            >
-            </popup-button>
+            />
 
             <progress-button :cell="cell" />
 

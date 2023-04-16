@@ -1,4 +1,4 @@
-import { MatrixAction, MatrixCell } from "src/types/Matrix";
+import { MatrixAction } from "src/types/Matrix";
 import { TableCell } from "src/types/TableCell";
 
 export const getCriteriaPercentage = (currentCell: TableCell) => {

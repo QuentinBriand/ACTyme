@@ -6,6 +6,14 @@
                 label="Télécharger la matrice"
                 :matrix="currentMatrix"
                 :file-title="currentMatrix.title"
+                mode="ACTRIX"
+            />
+            <button-download
+                label="Télécharger la matrice en PDF"
+                :matrix="currentMatrix"
+                :file-title="currentMatrix.title"
+                mode="PDF"
+                :cells="tableCells"
             />
         </div>
         <div class="grid gap-md q-py-xl">
@@ -25,12 +33,12 @@
 </template>
 
 <script setup lang="ts">
+import ButtonDownload from "src/components/ButtonDownload.vue";
 import { useMatrixStore } from "src/stores/matrix.store";
 import { Matrix } from "src/types/Matrix";
 import { TableCell } from "src/types/TableCell";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import MatrixTableCard from "./MatrixTableCard.vue";
-import ButtonDownload from "src/components/ButtonDownload.vue";
 
 const matrixStore = useMatrixStore();
 

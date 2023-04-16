@@ -1,5 +1,5 @@
 <template>
-    <q-dialog v-model="model" ref="testRef">
+    <q-dialog v-model="model">
         <q-card>
             <q-card-section class="row items-center q-pb-none">
                 <span class="text-h5">
@@ -15,17 +15,19 @@
                     class="col"
                 >
                     <q-list>
-                        <q-item clickable :v-ripple="model" style="padding: 0%">
-                            <list-element
-                                :element="detail"
-                                :is-criteria="type === 'Evaluation'"
-                                :goTo="goToAction"
-                                @update:title="
-                                    (title, id) => updateTitle(title, id)
-                                "
-                                @delete="deleteElement"
-                            />
-                        </q-item>
+                        <list-element
+                            :element="detail"
+                            :is-criteria="type === 'Evaluation'"
+                            :cell-id="cell.id"
+                            @update:title="
+                                (title, id) => updateTitle(title, id)
+                            "
+                            @update:state="
+                                (state, id) => updateState(state, id)
+                            "
+                            @update:checkbox="
+                                (checked, id) => updateCheckbox(checked, id)"
+                        />
                         <q-separator
                             v-if="index !== details.length - 1"
                             spaced
@@ -55,16 +57,20 @@
 import { defineProps, defineEmits, computed, inject } from "vue";
 import {
     MatrixAction,
+    MatrixActionState,
     MatrixActionType,
     MatrixCriteria,
 } from "src/types/Matrix";
 import ListElement from "src/components/ListElement.vue";
 import { useMatrixStore } from "src/stores/matrix.store";
 import { TableCell } from "src/types/TableCell";
+
 const cell = inject<TableCell>("cell");
+
 if (!cell) {
     throw new Error("Cell is not provided");
 }
+
 const props = defineProps<{
     modelValue: boolean;
     details: MatrixCriteria[] | MatrixAction[];
@@ -80,16 +86,12 @@ const model = computed({
 
 const matrixStore = useMatrixStore();
 
-const goToAction = (action: number) => {
-    model.value = false;
-};
-
 const addElement = (type?: MatrixActionType) => {
     if (props.type === "Action") {
         matrixStore.addActionToCell(cell?.id, {
             id: cell.actions![cell.actions!.length - 1]?.id + 1 || 0,
             title: "Nouvelle action",
-            type: type || "checkbox",
+            type: type!,
             checked: false,
         });
     } else {
@@ -109,13 +111,11 @@ const updateTitle = (title: string, id: number) => {
     }
 };
 
-const deleteElement = (id: number) => {
-    if (props.type === "Action") {
-        matrixStore.deleteCellAction(cell?.id, id);
-    } else {
-        matrixStore.deleteCellCriteria(cell?.id, id);
-    }
+const updateState = (state: MatrixActionState, id: number) => {
+    matrixStore.updateCellActionState(state, cell?.id, id);
+};
+
+const updateCheckbox = (checked: boolean, id: number) => {
+    matrixStore.updateCellActionCheckbox(checked, cell?.id, id);
 };
 </script>
-
-<style scoped lang="sass"></style>

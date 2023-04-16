@@ -4,7 +4,6 @@ import firebase from "firebase/compat/app";
 import { auth } from "src/boot/firebase";
 import { ActymeError, ActymeErrorData } from "src/classes/ActymeError";
 import { Configurable } from "src/classes/Configurable";
-import { Matrix } from "src/types/Matrix";
 import { PasswordRequestBodyDto } from "./password-request.dto";
 import { UserMeResponse } from "./user-me.dto";
 
@@ -154,9 +153,9 @@ export class Api extends Configurable<ApiConfig> {
         };
     }
 
-    public async getMatrix(matrixId: number): Promise<Matrix> {
-        return {} as Matrix;
-    }
+    // public async getMatrix(matrixId: number): Promise<Matrix> {
+    //     return {} as Matrix;
+    // }
 
     private _getUnauthenticatedAxios(): AxiosInstance {
         if (this._unauthenticatedAxios === undefined) {
@@ -267,7 +266,6 @@ export class Api extends Configurable<ApiConfig> {
                     key: window.process.env.FIREBASE_API_KEY,
                 },
             });
-            console.log(this.getAuthTokens().refreshToken);
             refreshAxios
                 .post("token?key=" + window.process.env.FIREBASE_API_KEY, {
                     grant_type: "refresh_token",

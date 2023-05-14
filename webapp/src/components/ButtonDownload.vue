@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { exportFile, QBtnProps } from "quasar";
 import ButtonAction from "src/components/ButtonAction.vue";
-import { Matrix, MatrixActionState } from "src/types/Matrix";
+import { Matrix } from "src/types/Matrix";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { TableCell } from "src/types/TableCell";
@@ -29,7 +29,7 @@ const props = defineProps<{
     label: string;
     fileTitle: string;
     matrix: Matrix;
-    mode: "PDF" | "ACTRIX";
+    mode: "PDF" | "ACTRIX" | "PDF FULL";
     cells?: TableCell[];
 }>();
 
@@ -64,34 +64,19 @@ const getBody = (col: number) => {
             data[0 + offset].title!,
             data[1 + offset].criteria
                 ?.filter(criteria => {
-                    if (
-                        criteria.impactedActionsIds === undefined ||
-                        criteria.impactedActionsIds.length === 0
-                    ) {
+                    if (criteria.impactedActionsIds === undefined || criteria.impactedActionsIds.length === 0 || props.mode === "PDF FULL") {
                         return true;
                     }
                     return criteria.impactedActionsIds?.some(id => {
-                        const action = data[1 + offset].actions?.find(
-                            action => action.id === id
-                        );
-                        if (action === undefined) {
-                            return false;
-                        }
-                        return (
-                            (action.type === "progress" && action.state !== "done") ||
-                            (action.type === "checkbox" && action.checked === false)
-                        );
+                        const action = data[1 + offset].actions?.find(action => action.id === id);
+                        if (action === undefined) { return false; }
+                        return ((action.type === "progress" && action.state !== "done") || (action.type === "checkbox" && action.checked === false));
                     });
                 })
                 .map(criteria => criteria.title)
-                .join(",\n\n") || [],
-            data[1 + offset].actions
+                .join(",\n\n") || [], data[1 + offset].actions
                 ?.filter(action => {
-                    return (
-                        (action.type === "progress" &&
-                            action.state !== "done") ||
-                        (action.type === "checkbox" && action.checked === false)
-                    );
+                    return ((props.mode === "PDF FULL") || (action.type === "progress" && action.state !== "done") || (action.type === "checkbox" && action.checked === false));
                 })
                 .map(action => action.title)
                 .join(",\n\n") || [],

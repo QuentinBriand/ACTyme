@@ -29,9 +29,17 @@ export interface MatrixCell {
     actions: MatrixAction[];
 }
 
+export interface MatrixComment {
+    date: string;
+    userName: string;
+    userEmail: string;
+    comment: string;
+}
+
 export interface Matrix {
     id: string;
     title: string;
+    comments: MatrixComment[];
     determinantsKeys: MatrixCellKey[];
     successKeys: MatrixCellKey[];
     cells: MatrixCell[];

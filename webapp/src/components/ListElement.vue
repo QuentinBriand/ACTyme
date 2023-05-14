@@ -1,7 +1,7 @@
 <template>
     <div class="row items-center col">
         <div class="col-12">
-            <span class="underline-dotted cursor-pointer">
+            <span class="underline-dotted cursor-pointer text-weight-medium">
                 {{ element.title }}
                 <q-popup-edit v-model="title" auto-save v-slot="scope">
                     <q-input
@@ -22,18 +22,21 @@
                 @update:checkbox="updateCheckbox($event)"
             />
         </div>
-            <span class="q-mt-md">
-                {{ `${!isCriteria ? "Évaluations" : "Action"} liées :` }}</span
-            >
-            <q-select
-                v-model="linkedElements"
-                dense
-                standout
-                multiple
-                use-chips
-                :options="getOptions()"
-                @update:model-value="setLinkedElements"
-            />
+        <span class="q-mt-md text-grey-7">
+            {{ `${!isCriteria ? "Évaluations" : "Action"} liées :` }}</span
+        >
+        <q-select
+        class="item-aligned"
+            v-model="linkedElements"
+            dense
+            hide-bottom-space
+            color="red"
+            standout
+            multiple
+            use-chips
+            :options="getOptions()"
+            @update:model-value="setLinkedElements"
+        />
     </div>
 </template>
 
@@ -75,11 +78,16 @@ const getLinkedElements = () => {
 const linkedElements = ref(getLinkedElements());
 
 const getOptions = () => {
-    const cell = matrixStore._currentMatrix!.cells[props.cellId];
-    if (props.isCriteria) {
-        return cell.actions.map(action => action.id);
+    const cell = matrixStore._currentMatrix!.cells.find(
+        cell => cell.id === props.cellId
+    );
+    if (cell === undefined) {
+        return [];
     }
-    return cell.criteria.map(criteria => criteria.id);
+    if (props.isCriteria) {
+        return cell.actions?.map(action => action.id) || [];
+    }
+    return cell.criteria?.map(criteria => criteria.id) || [];
 };
 
 const setLinkedElements = () => {

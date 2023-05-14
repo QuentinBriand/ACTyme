@@ -2,7 +2,13 @@ import { keyBy } from "lodash";
 import { defineStore } from "pinia";
 
 import { ActymeError } from "src/classes/ActymeError";
-import { Matrix, MatrixAction, MatrixActionState, MatrixCriteria } from "src/types/Matrix";
+import {
+    Matrix,
+    MatrixAction,
+    MatrixActionState,
+    MatrixComment,
+    MatrixCriteria,
+} from "src/types/Matrix";
 import { matrixEmpty } from "../../example";
 export interface MatrixType {
     initted: boolean;
@@ -250,46 +256,73 @@ export const useMatrixStore = defineStore("matrix", {
         },
         setMatrix(matrix: Matrix) {
             this._currentMatrix = matrix;
-            console.log(this._currentMatrix.cells[0].criteria);
         },
         setDefaultMatrix() {
             this._currentMatrix = matrixEmpty;
         },
-        updateCellActionState(state: MatrixActionState, cellId: number, actionId: number) {
+        updateCellActionState(
+            state: MatrixActionState,
+            cellId: number,
+            actionId: number
+        ) {
             if (this._currentMatrix === null) {
                 return;
             }
             const cellIndex = this._currentMatrix.cells.findIndex(
                 cell => cell.id === cellId
             );
-            this._currentMatrix.cells[cellIndex].actions[actionId].state = state;
+            this._currentMatrix.cells[cellIndex].actions[actionId].state =
+                state;
         },
-        updateCellActionCheckbox(checked: boolean, cellId: number, actionId: number) {
+        updateCellActionCheckbox(
+            checked: boolean,
+            cellId: number,
+            actionId: number
+        ) {
             if (this._currentMatrix === null) {
                 return;
             }
             const cellIndex = this._currentMatrix.cells.findIndex(
                 cell => cell.id === cellId
             );
-            this._currentMatrix.cells[cellIndex].actions[actionId].checked = checked;
+            this._currentMatrix.cells[cellIndex].actions[actionId].checked =
+                checked;
         },
-        setLinkedActions(linkedActions: number[], cellId: number, criteriaId: number) {
+        setLinkedActions(
+            linkedActions: number[],
+            cellId: number,
+            criteriaId: number
+        ) {
             if (this._currentMatrix === null) {
                 return;
             }
             const cellIndex = this._currentMatrix.cells.findIndex(
                 cell => cell.id === cellId
             );
-            this._currentMatrix.cells[cellIndex].criteria[criteriaId].impactedActionsIds = linkedActions;
+            this._currentMatrix.cells[cellIndex].criteria[
+                criteriaId
+            ].impactedActionsIds = linkedActions;
         },
-        setLinkedCriteria(linkedCriteria: number[], cellId: number, actionId: number) {
+        setLinkedCriteria(
+            linkedCriteria: number[],
+            cellId: number,
+            actionId: number
+        ) {
             if (this._currentMatrix === null) {
                 return;
             }
             const cellIndex = this._currentMatrix.cells.findIndex(
                 cell => cell.id === cellId
             );
-            this._currentMatrix.cells[cellIndex].actions[actionId].impactedCriteriaIds = linkedCriteria;
+            this._currentMatrix.cells[cellIndex].actions[
+                actionId
+            ].impactedCriteriaIds = linkedCriteria;
+        },
+        addComment(comment: MatrixComment) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            this._currentMatrix.comments.push(comment);
         }
     },
 });

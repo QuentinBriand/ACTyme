@@ -95,7 +95,7 @@ export class Api extends Configurable<ApiConfig> {
         }
         this.setAuthTokens({
             accessToken: await this._user.getIdToken(),
-            refreshToken: await this._user.refreshToken,
+            refreshToken: this._user.refreshToken,
         });
     }
 

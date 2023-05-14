@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, inject } from "vue";
+import { computed, inject } from "vue";
 import {
     MatrixAction,
     MatrixActionState,

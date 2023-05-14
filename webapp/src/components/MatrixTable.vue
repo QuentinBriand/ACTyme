@@ -9,10 +9,17 @@
                 mode="ACTRIX"
             />
             <button-download
-                label="Télécharger la matrice en PDF"
+                label="Télécharger les actions restantes en PDF"
                 :matrix="currentMatrix"
                 :file-title="currentMatrix.title"
                 mode="PDF"
+                :cells="tableCells"
+            />
+            <button-download
+                label="Télécharger la matrice complète en PDF"
+                :matrix="currentMatrix"
+                :file-title="currentMatrix.title"
+                mode="PDF FULL"
                 :cells="tableCells"
             />
         </div>

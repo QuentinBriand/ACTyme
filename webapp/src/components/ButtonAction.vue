@@ -32,7 +32,7 @@ interface buttonsActionProps {
     colorHover?: QBtnProps["color"];
     textColor?: QBtnProps["color"];
     textColorHover?: QBtnProps["color"];
-    icon: string;
+    icon?: string;
     iconSize?: number;
     label: string;
     labelVars?: any;

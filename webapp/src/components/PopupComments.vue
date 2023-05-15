@@ -7,7 +7,6 @@
             :text="comment.comments"
             :sent="comment.userEmail === userProfileStore.user?.email"
             size="6"
-            :stamp="getElapsedTime(comment.date)"
             text-color="white"
             :bg-color="
                 comment.userEmail === userProfileStore.user?.email
@@ -15,6 +14,8 @@
                     : 'green'
             "
         />
+        <!-- :stamp="getElapsedTime(comment.date)" -->
+
         <q-input
             standout
             bottom-slots

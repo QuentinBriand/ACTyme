@@ -3,6 +3,7 @@ import { Matrix } from "src/types/Matrix";
 export const matrix: Matrix = {
     id: "1",
     title: "Basic Example",
+    comments: [],
     successKeys: [
         { title: "Mon poid", id: 1 },
         { title: "Mes relations avec les soignants", id: 2 },
@@ -375,6 +376,7 @@ export const matrix: Matrix = {
 export const matrixEmpty: Matrix = {
     id: "0",
     title: "Ma matrice",
+    comments: [],
     successKeys: [{ title: "Succès 1", id: 1 }],
     determinantsKeys: [
         {

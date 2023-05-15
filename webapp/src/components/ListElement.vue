@@ -70,9 +70,13 @@ const title = ref(props.element.title);
 
 const getLinkedElements = () => {
     if (props.isCriteria) {
-        return (props.element as MatrixCriteria).impactedActionsIds;
+        return (props.element as MatrixCriteria).impactedActionsIds?.map(
+            id => id + 1
+        );
     }
-    return (props.element as MatrixAction).impactedCriteriaIds;
+    return (props.element as MatrixAction).impactedCriteriaIds?.map(
+        id => id + 1
+    );
 };
 
 const linkedElements = ref(getLinkedElements());

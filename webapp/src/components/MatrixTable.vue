@@ -1,9 +1,22 @@
 <template>
     <div v-if="matrixStore._currentMatrix !== null">
         <div class="row justify-between">
-            <span class="text-h3">{{ matrixStore._currentMatrix.title }}</span>
+            <span class="text-h3 cursor-pointer">
+                {{ matrixStore._currentMatrix.title }}
+                <q-popup-edit
+                    v-model="matrixStore._currentMatrix.title"
+                    v-slot="scope"
+                >
+                    <q-input
+                        v-model="scope.value"
+                        dense
+                        autofocus
+                        @keyup.enter="setTitle(scope)"
+                    />
+                </q-popup-edit>
+            </span>
             <button-download
-                label="Télécharger la matrice"
+                label="Sauvegarder la matrice"
                 :matrix="currentMatrix"
                 :file-title="currentMatrix.title"
                 mode="ACTRIX"
@@ -52,6 +65,14 @@ const matrixStore = useMatrixStore();
 const props = defineProps<{
     currentMatrix: Matrix;
 }>();
+
+const setTitle = (scope: any) => {
+    if (scope.value !== "" && matrixStore._currentMatrix !== null) {
+        matrixStore._currentMatrix.title = scope.value;
+    } else {
+        scope.set(matrixStore._currentMatrix?.title);
+    }
+};
 
 const tableCells = computed(() => {
     let lastSuccessKey = 0;

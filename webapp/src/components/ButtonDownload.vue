@@ -55,6 +55,24 @@ const getNthCol = (col: number) => {
     return filledCol;
 };
 
+const formatTitle = (title: string): string[] => {
+    const half = Math.floor(title.length / 2);
+    const nextSpaceIndex = title.indexOf(" ", half);
+    if (nextSpaceIndex !== -1) {
+        return [title.substring(0, nextSpaceIndex), title.substring(nextSpaceIndex + 1)];
+    }
+    const nextDashIndex = title.indexOf("-", half);
+    if (nextDashIndex !== -1) {
+        return [title.substring(0, nextDashIndex), title.substring(nextDashIndex + 1)];
+    }
+    const nextCommaIndex = title.indexOf(",", half);
+    if (nextCommaIndex !== -1) {
+        return [title.substring(0, nextCommaIndex), title.substring(nextCommaIndex + 1)];
+    }
+
+    return [title];
+};
+
 const getBody = (col: number) => {
     const body = [];
     let offset = 0;
@@ -105,7 +123,7 @@ const handleClickDownload = async () => {
             index++
         ) {
             doc.setFontSize(24)
-                .text(props.matrix.determinantsKeys[index].title, 148, 40, {
+                .text(formatTitle(props.matrix.determinantsKeys[index].title), 148, 40, {
                     align: "center",
                 })
                 .setFillColor(0, 214, 121);

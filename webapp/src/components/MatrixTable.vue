@@ -1,6 +1,11 @@
 <template>
     <div v-if="matrixStore._currentMatrix !== null">
-        <div class="row justify-between">
+        <div class="row justify-between items-center">
+            <img
+                src="/icons/logo.png"
+                alt="logo"
+                style="height: 50px"
+            />
             <span class="text-h3 cursor-pointer">
                 {{ matrixStore._currentMatrix.title }}
                 <q-popup-edit

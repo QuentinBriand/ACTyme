@@ -26,17 +26,31 @@
             {{ `${!isCriteria ? "Évaluations" : "Action"} liées :` }}</span
         >
         <q-select
-        class="item-aligned"
+            class="item-aligned"
             v-model="linkedElements"
             dense
             hide-bottom-space
             color="red"
             standout
             multiple
-            use-chips
             :options="getOptions()"
             @update:model-value="setLinkedElements"
-        />
+        >
+            <template #selected-item="scope">
+                <q-chip
+                    removable
+                    dense
+                    @remove="scope.removeAtIndex(scope.index)"
+                    :tabindex="scope.tabindex"
+                    color="white"
+                    text-color="red"
+                    class="q-ma-none"
+                >
+                    {{ scope.opt }}
+                    <q-tooltip> {{ getTitle(scope.opt - 1) }} </q-tooltip>
+                </q-chip>
+            </template>
+        </q-select>
     </div>
 </template>
 
@@ -48,9 +62,16 @@ import {
     MatrixActionState,
     MatrixCriteria,
 } from "src/types/Matrix";
-import { ref } from "vue";
+import { TableCell } from "src/types/TableCell";
+import { inject, ref } from "vue";
 
 const matrixStore = useMatrixStore();
+
+const cell = inject<TableCell>("cell");
+
+if (cell === undefined) {
+    throw new Error("Cell is undefined");
+}
 
 const props = defineProps<{
     element: MatrixCriteria | MatrixAction;
@@ -67,6 +88,13 @@ const emit = defineEmits<{
 }>();
 
 const title = ref(props.element.title);
+
+const getTitle = (id: number) => {
+    if (props.isCriteria) {
+        return cell.actions?.find(action => action.id === id)?.title;
+    }
+    return cell.criteria?.find(criteria => criteria.id === id)?.title;
+};
 
 const getLinkedElements = () => {
     if (props.isCriteria) {

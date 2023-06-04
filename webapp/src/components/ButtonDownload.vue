@@ -55,24 +55,6 @@ const getNthCol = (col: number) => {
     return filledCol;
 };
 
-const formatTitle = (title: string): string[] => {
-    const half = Math.floor(title.length / 2);
-    const nextSpaceIndex = title.indexOf(" ", half);
-    if (nextSpaceIndex !== -1) {
-        return [title.substring(0, nextSpaceIndex), title.substring(nextSpaceIndex + 1)];
-    }
-    const nextDashIndex = title.indexOf("-", half);
-    if (nextDashIndex !== -1) {
-        return [title.substring(0, nextDashIndex), title.substring(nextDashIndex + 1)];
-    }
-    const nextCommaIndex = title.indexOf(",", half);
-    if (nextCommaIndex !== -1) {
-        return [title.substring(0, nextCommaIndex), title.substring(nextCommaIndex + 1)];
-    }
-
-    return [title];
-};
-
 const getBody = (col: number) => {
     const body = [];
     let offset = 0;
@@ -82,19 +64,38 @@ const getBody = (col: number) => {
             data[0 + offset].title!,
             data[1 + offset].criteria
                 ?.filter(criteria => {
-                    if (criteria.impactedActionsIds === undefined || criteria.impactedActionsIds.length === 0 || props.mode === "PDF FULL") {
+                    if (
+                        criteria.impactedActionsIds === undefined ||
+                        criteria.impactedActionsIds.length === 0 ||
+                        props.mode === "PDF FULL"
+                    ) {
                         return true;
                     }
                     return criteria.impactedActionsIds?.some(id => {
-                        const action = data[1 + offset].actions?.find(action => action.id === id);
-                        if (action === undefined) { return false; }
-                        return ((action.type === "progress" && action.state !== "done") || (action.type === "checkbox" && action.checked === false));
+                        const action = data[1 + offset].actions?.find(
+                            action => action.id === id
+                        );
+                        if (action === undefined) {
+                            return false;
+                        }
+                        return (
+                            (action.type === "progress" &&
+                                action.state !== "done") ||
+                            (action.type === "checkbox" &&
+                                action.checked === false)
+                        );
                     });
                 })
                 .map(criteria => criteria.title)
-                .join(",\n\n") || [], data[1 + offset].actions
+                .join(",\n\n") || [],
+            data[1 + offset].actions
                 ?.filter(action => {
-                    return ((props.mode === "PDF FULL") || (action.type === "progress" && action.state !== "done") || (action.type === "checkbox" && action.checked === false));
+                    return (
+                        props.mode === "PDF FULL" ||
+                        (action.type === "progress" &&
+                            action.state !== "done") ||
+                        (action.type === "checkbox" && action.checked === false)
+                    );
                 })
                 .map(action => action.title)
                 .join(",\n\n") || [],
@@ -123,15 +124,21 @@ const handleClickDownload = async () => {
             index++
         ) {
             doc.setFontSize(24)
-                .text(formatTitle(props.matrix.determinantsKeys[index].title), 148, 40, {
-                    align: "center",
-                })
+                .text(
+                    props.matrix.determinantsKeys[index].title,
+                    148,
+                    40,
+                    {
+                        align: "center",
+                        maxWidth: 200,
+                    }
+                )
                 .setFillColor(0, 214, 121);
 
             autoTable(doc, {
                 head: [["", "Déterminants", "Actions"]],
                 body: getBody(index),
-                startY: 40,
+                startY: 50,
                 theme: "grid",
                 styles: {
                     fontSize: 12,

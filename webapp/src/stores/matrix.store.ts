@@ -108,6 +108,12 @@ export const useMatrixStore = defineStore("matrix", {
                 actions: [],
             });
         },
+        removeCell(index: number) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            this._currentMatrix.cells.splice(index, 1);
+        },
         addEmptyDeterminantKey() {
             console.log("addEmptyDeterminant");
             if (
@@ -155,6 +161,52 @@ export const useMatrixStore = defineStore("matrix", {
             this._currentMatrix.cells.forEach((cell, index) => {
                 cell.id = index;
             });
+        },
+        deleteDeterminantKey(determinantKeyId: number) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const determinantKeyIndex =
+                this._currentMatrix.determinantsKeys.findIndex(
+                    determinantKey => determinantKey.id === determinantKeyId
+                );
+            this._currentMatrix.determinantsKeys.splice(determinantKeyIndex, 1);
+            this._currentMatrix.cells.forEach((cell, index) => {
+                cell.id = index;
+            });
+
+            for (let i = 0; i < this._currentMatrix.successKeys.length; i++) {
+                this.removeCell(
+                    this._currentMatrix.determinantsKeys.length * i +
+                        determinantKeyIndex
+                );
+            }
+        },
+        deleteSuccessKey(successKeyId: number) {
+            if (this._currentMatrix === null) {
+                return;
+            }
+            const successKeyIndex = this._currentMatrix.successKeys.findIndex(
+                successKey => successKey.id === successKeyId
+            );
+            console.log(successKeyIndex);
+            this._currentMatrix.successKeys.splice(successKeyIndex, 1);
+            this._currentMatrix.cells.forEach((cell, index) => {
+                cell.id = index;
+            });
+            for (
+                let i = 0;
+                i < this._currentMatrix.determinantsKeys.length;
+                i++
+            ) {
+                console.log(this._currentMatrix.determinantsKeys.length *
+                  successKeyId - 1 - i
+                );
+                this.removeCell(
+                    this._currentMatrix.determinantsKeys.length *
+                    successKeyId - 1 - i
+                );
+            }
         },
         addActionToCell(cellId: number, action: MatrixAction) {
             if (this._currentMatrix === null) {
@@ -323,6 +375,6 @@ export const useMatrixStore = defineStore("matrix", {
                 return;
             }
             this._currentMatrix.comments.push(comment);
-        }
+        },
     },
 });

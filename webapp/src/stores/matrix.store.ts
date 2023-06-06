@@ -308,6 +308,9 @@ export const useMatrixStore = defineStore("matrix", {
         },
         setMatrix(matrix: Matrix) {
             this._currentMatrix = matrix;
+            if (this._currentMatrix.comments === undefined) {
+                this._currentMatrix.comments = [];
+            }
         },
         setDefaultMatrix() {
             this._currentMatrix = matrixEmpty;

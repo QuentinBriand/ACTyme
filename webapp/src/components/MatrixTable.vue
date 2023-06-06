@@ -1,12 +1,8 @@
 <template>
     <div v-if="matrixStore._currentMatrix !== null">
-        <div class="row justify-between items-center">
-            <img
-                src="/icons/logo.png"
-                alt="logo"
-                style="height: 50px"
-            />
-            <span class="text-h3 cursor-pointer">
+        <div class="row items-center">
+            <img src="/icons/logo.png" alt="logo" style="height: 150px" />
+            <span class="text-h3 cursor-pointer q-ml-xl">
                 {{ matrixStore._currentMatrix.title }}
                 <q-popup-edit
                     v-model="matrixStore._currentMatrix.title"
@@ -20,6 +16,7 @@
                     />
                 </q-popup-edit>
             </span>
+            <q-space />
             <button-download
                 label="Sauvegarder la matrice"
                 :matrix="currentMatrix"
@@ -41,7 +38,7 @@
                 :cells="tableCells"
             />
         </div>
-        <div class="grid gap-md q-py-xl">
+        <div class="grid gap-md q-pb-xl">
             <matrix-table-card
                 v-for="cell in tableCells"
                 :key="cell.id + cell.type"
